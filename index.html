@@ -2553,7 +2553,7 @@
             
             Swal.fire({
                 title:'Download Recap Bulanan?',
-                html:'<p>File akan berisi:</p><ul style="text-align:left;margin:10px 0 0 20px;"><li>Tabel lengkap data pasien</li><li>Statistik kategori pemeriksaan</li><li>Statistik gender pasien</li></ul>',
+                html:'<p>File akan berisi:</p><ul style="text-align:left;margin:10px 0 0 20px;"><li>Tabel lengkap data pasien</li><li>Hasil pemeriksaan lab lengkap</li><li>Statistik kategori pemeriksaan</li><li>Statistik gender pasien</li></ul>',
                 icon:'question',
                 showCancelButton:true,
                 confirmButtonText:'Download',
@@ -2568,19 +2568,98 @@
         function generateExcelRecap() {
             const wb=XLSX.utils.book_new();
             
-            // Sheet 1: Data Pasien
-            const patientData=db.map(p=>({
-                'Tanggal':p.tanggal,
-                'Nama':p.nama,
-                'NIK/BPJS':p.nik||'-',
-                'Jenis Kelamin':p.jenisKelamin,
-                'Umur':p.umur||'-',
-                'Telepon':p.telepon||'-',
-                'Alamat':p.alamat||'-',
-                'Kategori':p.kategori,
-                'Catatan':p.catatan||'-',
-                'Petugas':p.petugas||'-'
-            }));
+            // Sheet 1: Data Pasien Lengkap dengan Hasil Lab
+            const patientData=db.map(p=>{
+                const data={
+                    'Tanggal':p.tanggal,
+                    'Nama':p.nama,
+                    'NIK/BPJS':p.nik||'-',
+                    'Jenis Kelamin':p.jenisKelamin,
+                    'Umur':p.umur||'-',
+                    'Telepon':p.telepon||'-',
+                    'Alamat':p.alamat||'-',
+                    'Kategori':p.kategori,
+                    'Catatan':p.catatan||'-',
+                    'Petugas':p.petugas||'-'
+                };
+                
+                // Tambahkan hasil pemeriksaan lab berdasarkan kategori
+                if(p.parameters&&Object.keys(p.parameters).length>0) {
+                    // Hematologi
+                    if(p.kategori==='Hematologi') {
+                        data['Hemoglobin (Hb) g/dL'] = p.parameters.hb || '-';
+                        data['Leukosit /µL'] = p.parameters.leukosit || '-';
+                        data['Eritrosit juta/µL'] = p.parameters.eritrosit || '-';
+                        data['Trombosit /µL'] = p.parameters.trombosit || '-';
+                        data['Hematokrit %'] = p.parameters.hematokrit || '-';
+                        data['LED mm/jam'] = p.parameters.led || '-';
+                        data['MCH pg'] = p.parameters.mch || '-';
+                        data['MCHC g/dL'] = p.parameters.mchc || '-';
+                        data['MCV fL'] = p.parameters.mcv || '-';
+                    }
+                    // Kimia Darah
+                    else if(p.kategori==='Kimia Darah') {
+                        data['Gula Darah Sewaktu mg/dL'] = p.parameters.gds || '-';
+                        data['Gula Darah Puasa mg/dL'] = p.parameters.gdp || '-';
+                        data['Gula Darah 2 Jam PP mg/dL'] = p.parameters.gd2pp || '-';
+                        data['Asam Urat mg/dL'] = p.parameters.asamurat || '-';
+                        data['Kolesterol Total mg/dL'] = p.parameters.kolesterol || '-';
+                        data['HDL mg/dL'] = p.parameters.hdl || '-';
+                        data['LDL mg/dL'] = p.parameters.ldl || '-';
+                        data['Trigliserida mg/dL'] = p.parameters.trigliserida || '-';
+                        data['SGOT U/L'] = p.parameters.sgot || '-';
+                        data['SGPT U/L'] = p.parameters.sgpt || '-';
+                        data['Ureum mg/dL'] = p.parameters.ureum || '-';
+                        data['Kreatinin mg/dL'] = p.parameters.kreatinin || '-';
+                    }
+                    // Urinalisis
+                    else if(p.kategori==='Urinalisis') {
+                        data['Warna'] = p.parameters.warna || '-';
+                        data['Berat Jenis'] = p.parameters.berat_jenis || '-';
+                        data['pH'] = p.parameters.ph || '-';
+                        data['Protein'] = p.parameters.protein || '-';
+                        data['Glukosa'] = p.parameters.glukosa || '-';
+                        data['Keton'] = p.parameters.keton || '-';
+                        data['Bilirubin'] = p.parameters.bilirubin || '-';
+                        data['Urobilinogen'] = p.parameters.urobilinogen || '-';
+                        data['Nitrit'] = p.parameters.nitrit || '-';
+                        data['Eritrosit'] = p.parameters.eritrosit_urin || '-';
+                        data['Leukosit'] = p.parameters.leukosit_urin || '-';
+                        data['Silinder'] = p.parameters.silinder || '-';
+                        data['Bakteri'] = p.parameters.bakteri || '-';
+                        data['Fungi'] = p.parameters.fungi || '-';
+                        data['Parasit'] = p.parameters.parasit || '-';
+                    }
+                    // Imunoserologi
+                    else if(p.kategori==='Imunoserologi') {
+                        data['Widal O'] = p.parameters.widal_o || '-';
+                        data['Widal H'] = p.parameters.widal_h || '-';
+                        data['HBsAg'] = p.parameters.hbsag || '-';
+                        data['Anti-HCV'] = p.parameters.anti_hcv || '-';
+                        data['HIV'] = p.parameters.hiv || '-';
+                        data['RPR/VDRL'] = p.parameters.rpr || '-';
+                        data['TPHA'] = p.parameters.tpa || '-';
+                        data['Chikungunya IgM/IgG'] = p.parameters.chikungunya || '-';
+                        data['Dengue IgM'] = p.parameters.dengue_igm || '-';
+                        data['Dengue IgG'] = p.parameters.dengue_igg || '-';
+                    }
+                    // Mikrobiologi
+                    else if(p.kategori==='Mikrobiologi') {
+                        data['Hematologi'] = p.parameters.hematologi_kultur || '-';
+                        data['Leukosit'] = p.parameters.leukosit_kultur || '-';
+                        data['Trombosit'] = p.parameters.trombosit_kultur || '-';
+                        data['Kultur'] = p.parameters.kultur || '-';
+                        data['Biakan'] = p.parameters.biakan || '-';
+                        data['Sensitivitas'] = p.parameters.sensitivitas || '-';
+                        data['Pewarnaan Gram'] = p.parameters.gram || '-';
+                        data['Fungi'] = p.parameters.fungi || '-';
+                        data['Parasit'] = p.parameters.parasit || '-';
+                        data['Pemeriksaan Mikroskopis'] = p.parameters.mikroskopis || '-';
+                    }
+                }
+                
+                return data;
+            });
             
             const ws1=XLSX.utils.json_to_sheet(patientData);
             
@@ -2598,7 +2677,7 @@
             ];
             ws1['!cols']=wscols;
             
-            XLSX.utils.book_append_sheet(wb,ws1,'Data Pasien');
+            XLSX.utils.book_append_sheet(wb,ws1,'Data Pasien & Hasil Lab');
             
             // Sheet 2: Statistik Kategori
             const categories={};
@@ -2635,14 +2714,55 @@
             
             XLSX.utils.book_append_sheet(wb,ws3,'Statistik Gender');
             
+            // Sheet 4: Ringkasan Hasil per Kategori
+            const summaryData=db.filter(p=>p.parameters&&Object.keys(p.parameters).length>0).map(p=>{
+                const summary={
+                    'Nama Pasien':p.nama,
+                    'Kategori':p.kategori,
+                    'Tanggal':p.tanggal
+                };
+                
+                if(p.kategori==='Hematologi') {
+                    summary['Hb (g/dL)'] = p.parameters.hb || '-';
+                    summary['Leukosit (/µL)'] = p.parameters.leukosit || '-';
+                    summary['Trombosit (/µL)'] = p.parameters.trombosit || '-';
+                    summary['Hematokrit (%)'] = p.parameters.hematokrit || '-';
+                } else if(p.kategori==='Kimia Darah') {
+                    summary['GDS (mg/dL)'] = p.parameters.gds || '-';
+                    summary['GDP (mg/dL)'] = p.parameters.gdp || '-';
+                    summary['Asam Urat (mg/dL)'] = p.parameters.asamurat || '-';
+                    summary['Kolesterol (mg/dL)'] = p.parameters.kolesterol || '-';
+                } else if(p.kategori==='Urinalisis') {
+                    summary['Warna'] = p.parameters.warna || '-';
+                    summary['pH'] = p.parameters.ph || '-';
+                    summary['Protein'] = p.parameters.protein || '-';
+                    summary['Glukosa'] = p.parameters.glukosa || '-';
+                } else if(p.kategori==='Imunoserologi') {
+                    summary['Widal O'] = p.parameters.widal_o || '-';
+                    summary['HBsAg'] = p.parameters.hbsag || '-';
+                    summary['HIV'] = p.parameters.hiv || '-';
+                } else if(p.kategori==='Mikrobiologi') {
+                    summary['Kultur'] = p.parameters.kultur || '-';
+                    summary['Biakan'] = p.parameters.biakan || '-';
+                    summary['Sensitivitas'] = p.parameters.sensitivitas || '-';
+                }
+                
+                return summary;
+            });
+            
+            const ws4=XLSX.utils.json_to_sheet(summaryData);
+            ws4['!cols']=[{wch:25},{wch:15},{wch:12},{wch:15},{wch:15},{wch:15},{wch:15},{wch:15}];
+            
+            XLSX.utils.book_append_sheet(wb,ws4,'Ringkasan Hasil Lab');
+            
             const month=new Date().toLocaleDateString('id-ID',{month:'long',year:'numeric'});
             XLSX.writeFile(wb,`SisterLab_Recap_${month}.xlsx`);
             
             Swal.fire({
                 icon:'success',
                 title:'Download Berhasil!',
-                text:`File Excel recap bulanan telah diunduh`,
-                timer:2000,
+                html:`<p>File Excel recap bulanan telah diunduh</p><p style="font-size:0.875rem;color:#64748b;margin-top:8px;">Berisi: Data Pasien, Hasil Lab Lengkap, Statistik Kategori & Gender, Ringkasan Hasil</p>`,
+                timer:3000,
                 showConfirmButton:false
             });
         }
