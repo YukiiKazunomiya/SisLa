@@ -1,0 +1,2342 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>SisterLab - Puskesmas Meureubo</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5.0.4/dist/tesseract.min.js"></script>
+    
+    <style>
+        :root {
+            --primary: #06b6d4;
+            --primary-dark: #0891b2;
+            --bg: #f8fafc;
+            --card: #ffffff;
+            --text: #1e293b;
+            --text-secondary: #64748b;
+            --border: #e2e8f0;
+            --shadow: 0 1px 3px rgba(0,0,0,0.1);
+            --radius: 16px;
+        }
+
+        [data-theme="dark"] {
+            --bg: #0f172a;
+            --card: #1e293b;
+            --text: #f1f5f9;
+            --text-secondary: #94a3b8;
+            --border: #334155;
+        }
+
+        * {margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+        
+        body {
+            font-family:'Inter',system-ui,-apple-system,sans-serif;
+            background:var(--bg);
+            color:var(--text);
+            line-height:1.6;
+            -webkit-font-smoothing:antialiased;
+            overflow-x:hidden;
+        }
+
+        /* LOGIN */
+        #loginScreen {
+            position:fixed;
+            top:0;
+            left:0;
+            width:100%;
+            height:100%;
+            background:linear-gradient(135deg,#0891b2 0%,#06b6d4 100%);
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            z-index:10000;
+        }
+
+        .login-container {
+            width:90%;
+            max-width:400px;
+            background:white;
+            border-radius:24px;
+            padding:48px 32px;
+            box-shadow:0 20px 60px rgba(0,0,0,0.3);
+            animation:slideUp 0.5s ease;
+        }
+
+        @keyframes slideUp {from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
+
+        .login-logo {
+            text-align:center;
+            margin-bottom:40px;
+        }
+
+        .login-logo-icon {
+            width:80px;
+            height:80px;
+            margin:0 auto 20px;
+            background:linear-gradient(135deg,#06b6d4,#0891b2);
+            border-radius:20px;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            font-size:2.5rem;
+            color:white;
+            box-shadow:0 8px 20px rgba(6,182,212,0.3);
+            overflow:hidden;
+        }
+
+        .login-logo-icon img {
+            width:100%;
+            height:100%;
+            object-fit:cover;
+        }
+
+        .login-logo h1 {
+            font-size:1.75rem;
+            font-weight:800;
+            color:#0f172a;
+            margin-bottom:8px;
+        }
+
+        .login-logo p {
+            font-size:0.938rem;
+            color:#64748b;
+            font-weight:500;
+        }
+
+        .input-wrapper {
+            position:relative;
+            margin-bottom:20px;
+        }
+
+        .input-wrapper label {
+            display:block;
+            font-size:0.875rem;
+            font-weight:600;
+            color:#334155;
+            margin-bottom:8px;
+        }
+
+        .input-wrapper input {
+            width:100%;
+            padding:14px 16px;
+            border:2px solid #e2e8f0;
+            border-radius:12px;
+            font-size:1rem;
+            font-weight:500;
+            color:#0f172a;
+            background:white;
+            transition:all 0.2s;
+        }
+
+        .input-wrapper input:focus {
+            outline:none;
+            border-color:#06b6d4;
+            box-shadow:0 0 0 3px rgba(6,182,212,0.1);
+        }
+
+        .btn-login {
+            width:100%;
+            padding:16px;
+            background:linear-gradient(135deg,#06b6d4,#0891b2);
+            color:white;
+            border:none;
+            border-radius:12px;
+            font-size:1rem;
+            font-weight:700;
+            cursor:pointer;
+            margin-top:24px;
+            box-shadow:0 4px 12px rgba(6,182,212,0.3);
+            transition:all 0.2s;
+        }
+
+        .btn-login:active {
+            transform:scale(0.98);
+        }
+
+        /* MAIN APP */
+        #mainApp {
+            display:none;
+            min-height:100vh;
+        }
+
+        /* HEADER */
+        .header {
+            background:var(--card);
+            padding:16px 20px;
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+            border-bottom:1px solid var(--border);
+            position:sticky;
+            top:0;
+            z-index:100;
+        }
+
+        .header-left {
+            display:flex;
+            align-items:center;
+            gap:12px;
+        }
+
+        .hamburger {
+            width:40px;
+            height:40px;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            background:transparent;
+            border:none;
+            cursor:pointer;
+            font-size:1.5rem;
+            color:var(--text);
+        }
+
+        .header-title h1 {
+            font-size:1.25rem;
+            font-weight:700;
+            color:var(--text);
+        }
+
+        .header-right {
+            display:flex;
+            align-items:center;
+            gap:12px;
+        }
+
+        .icon-btn {
+            width:40px;
+            height:40px;
+            border-radius:50%;
+            background:var(--primary);
+            color:white;
+            border:none;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            cursor:pointer;
+            font-size:1.1rem;
+            position:relative;
+        }
+
+        .icon-btn .badge {
+            position:absolute;
+            top:-2px;
+            right:-2px;
+            width:18px;
+            height:18px;
+            background:#ef4444;
+            border-radius:50%;
+            font-size:0.65rem;
+            font-weight:700;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            border:2px solid var(--card);
+        }
+
+        /* SIDEBAR */
+        .sidebar {
+            position:fixed;
+            top:0;
+            left:-100%;
+            width:85%;
+            max-width:320px;
+            height:100%;
+            background:var(--card);
+            box-shadow:4px 0 24px rgba(0,0,0,0.15);
+            z-index:200;
+            transition:left 0.3s ease;
+            overflow-y:auto;
+        }
+
+        .sidebar.active {
+            left:0;
+        }
+
+        .sidebar-overlay {
+            position:fixed;
+            top:0;
+            left:0;
+            width:100%;
+            height:100%;
+            background:rgba(0,0,0,0.5);
+            z-index:199;
+            opacity:0;
+            pointer-events:none;
+            transition:opacity 0.3s;
+        }
+
+        .sidebar-overlay.active {
+            opacity:1;
+            pointer-events:all;
+        }
+
+        .sidebar-header {
+            padding:24px 20px;
+            background:linear-gradient(135deg,#06b6d4,#0891b2);
+            display:flex;
+            align-items:center;
+            gap:16px;
+        }
+
+        .sidebar-logo {
+            width:56px;
+            height:56px;
+            background:rgba(255,255,255,0.2);
+            border-radius:16px;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            font-size:2rem;
+            color:white;
+            overflow:hidden;
+        }
+
+        .sidebar-logo img {
+            width:100%;
+            height:100%;
+            object-fit:cover;
+        }
+
+        .sidebar-info h2 {
+            font-size:1.125rem;
+            font-weight:700;
+            color:white;
+            margin-bottom:4px;
+        }
+
+        .sidebar-info p {
+            font-size:0.813rem;
+            color:rgba(255,255,255,0.9);
+        }
+
+        .sidebar-user {
+            padding:20px;
+            border-bottom:1px solid var(--border);
+        }
+
+        .user-card {
+            background:var(--bg);
+            padding:16px;
+            border-radius:12px;
+            display:flex;
+            align-items:center;
+            gap:12px;
+        }
+
+        .user-avatar {
+            width:48px;
+            height:48px;
+            background:linear-gradient(135deg,#06b6d4,#0891b2);
+            border-radius:12px;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            color:white;
+            font-size:1.25rem;
+            font-weight:700;
+        }
+
+        .user-info h3 {
+            font-size:1rem;
+            font-weight:700;
+            color:var(--text);
+            margin-bottom:2px;
+        }
+
+        .user-info p {
+            font-size:0.813rem;
+            color:var(--text-secondary);
+        }
+
+        .sidebar-menu {
+            padding:12px 0;
+        }
+
+        .menu-item {
+            padding:16px 20px;
+            display:flex;
+            align-items:center;
+            gap:16px;
+            cursor:pointer;
+            transition:all 0.2s;
+            border-left:3px solid transparent;
+        }
+
+        .menu-item:active {
+            background:rgba(6,182,212,0.05);
+        }
+
+        .menu-item.active {
+            background:rgba(6,182,212,0.1);
+            border-left-color:#06b6d4;
+        }
+
+        .menu-icon {
+            width:24px;
+            font-size:1.25rem;
+            color:var(--text-secondary);
+        }
+
+        .menu-item.active .menu-icon {
+            color:#06b6d4;
+        }
+
+        .menu-text {
+            font-size:1rem;
+            font-weight:600;
+            color:var(--text);
+        }
+
+        .menu-item.logout {
+            color:#ef4444;
+            margin-top:12px;
+            border-top:1px solid var(--border);
+            padding-top:24px;
+        }
+
+        .menu-item.logout .menu-icon {
+            color:#ef4444;
+        }
+
+        /* MAIN CONTENT */
+        .main {
+            padding:20px;
+            padding-bottom:80px;
+        }
+
+        /* WELCOME CARD */
+        .welcome-card {
+            background:linear-gradient(135deg,#06b6d4,#0891b2);
+            border-radius:20px;
+            padding:28px 24px;
+            color:white;
+            margin-bottom:24px;
+        }
+
+        .welcome-card h2 {
+            font-size:1.5rem;
+            font-weight:800;
+            margin-bottom:8px;
+        }
+
+        .welcome-card p {
+            font-size:0.938rem;
+            opacity:0.95;
+        }
+
+        /* STAT CARDS */
+        .stats-grid {
+            display:grid;
+            grid-template-columns:repeat(2,1fr);
+            gap:16px;
+            margin-bottom:24px;
+        }
+
+        .stat-card {
+            background:var(--card);
+            border-radius:16px;
+            padding:20px;
+            border:1px solid var(--border);
+        }
+
+        .stat-header {
+            display:flex;
+            justify-content:space-between;
+            align-items:flex-start;
+            margin-bottom:16px;
+        }
+
+        .stat-title {
+            font-size:0.875rem;
+            color:var(--text-secondary);
+            font-weight:600;
+        }
+
+        .stat-icon {
+            width:44px;
+            height:44px;
+            border-radius:12px;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            font-size:1.25rem;
+            color:white;
+        }
+
+        .stat-icon.blue {background:linear-gradient(135deg,#3b82f6,#2563eb);}
+        .stat-icon.teal {background:linear-gradient(135deg,#14b8a6,#0d9488);}
+        .stat-icon.red {background:linear-gradient(135deg,#ef4444,#dc2626);}
+        .stat-icon.green {background:linear-gradient(135deg,#10b981,#059669);}
+
+        .stat-value {
+            font-size:2rem;
+            font-weight:800;
+            color:var(--text);
+            margin-bottom:4px;
+        }
+
+        .stat-label {
+            font-size:0.813rem;
+            color:var(--text-secondary);
+            font-weight:500;
+        }
+
+        /* SECTION */
+        .section {
+            margin-bottom:24px;
+        }
+
+        .section-header {
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+            margin-bottom:16px;
+        }
+
+        .section-title {
+            font-size:1.125rem;
+            font-weight:700;
+            color:var(--text);
+        }
+
+        .section-action {
+            font-size:0.875rem;
+            color:#06b6d4;
+            font-weight:600;
+            cursor:pointer;
+        }
+
+        /* CARD */
+        .card {
+            background:var(--card);
+            border-radius:16px;
+            padding:20px;
+            border:1px solid var(--border);
+            margin-bottom:16px;
+        }
+
+        .card-title {
+            font-size:1rem;
+            font-weight:700;
+            color:var(--text);
+            margin-bottom:16px;
+            display:flex;
+            align-items:center;
+            gap:12px;
+        }
+
+        .card-icon {
+            width:40px;
+            height:40px;
+            border-radius:10px;
+            background:rgba(6,182,212,0.1);
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            color:#06b6d4;
+            font-size:1.1rem;
+        }
+
+        /* FORM */
+        .form-group {
+            margin-bottom:20px;
+        }
+
+        .form-label {
+            display:block;
+            font-size:0.875rem;
+            font-weight:600;
+            color:var(--text);
+            margin-bottom:8px;
+        }
+
+        .form-input,
+        .form-select,
+        .form-textarea {
+            width:100%;
+            padding:14px 16px;
+            border:2px solid var(--border);
+            border-radius:12px;
+            font-size:0.938rem;
+            font-weight:500;
+            color:var(--text);
+            background:var(--card);
+            transition:all 0.2s;
+            font-family:inherit;
+        }
+
+        .form-input:focus,
+        .form-select:focus,
+        .form-textarea:focus {
+            outline:none;
+            border-color:#06b6d4;
+            box-shadow:0 0 0 3px rgba(6,182,212,0.1);
+        }
+
+        .form-textarea {
+            resize:vertical;
+            min-height:100px;
+        }
+
+        .form-hint {
+            font-size:0.813rem;
+            color:var(--text-secondary);
+            margin-top:6px;
+        }
+
+        /* BUTTONS */
+        .btn {
+            padding:14px 24px;
+            border-radius:12px;
+            font-size:0.938rem;
+            font-weight:700;
+            border:none;
+            cursor:pointer;
+            display:inline-flex;
+            align-items:center;
+            justify-content:center;
+            gap:8px;
+            transition:all 0.2s;
+        }
+
+        .btn i {
+            font-size:1.1rem;
+        }
+
+        .btn-primary {
+            background:linear-gradient(135deg,#06b6d4,#0891b2);
+            color:white;
+            box-shadow:0 4px 12px rgba(6,182,212,0.3);
+        }
+
+        .btn-primary:active {
+            transform:scale(0.98);
+        }
+
+        .btn-secondary {
+            background:var(--bg);
+            color:var(--text);
+            border:2px solid var(--border);
+        }
+
+        .btn-full {
+            width:100%;
+        }
+
+        .btn-group {
+            display:flex;
+            gap:12px;
+        }
+
+        /* UPLOAD */
+        .upload-area {
+            border:2px dashed var(--border);
+            border-radius:16px;
+            padding:40px 20px;
+            text-align:center;
+            cursor:pointer;
+            transition:all 0.2s;
+            margin-bottom:20px;
+        }
+
+        .upload-area:active {
+            background:rgba(6,182,212,0.05);
+            border-color:#06b6d4;
+        }
+
+        .upload-icon {
+            width:64px;
+            height:64px;
+            margin:0 auto 16px;
+            background:rgba(6,182,212,0.1);
+            border-radius:16px;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            font-size:2rem;
+            color:#06b6d4;
+        }
+
+        .upload-title {
+            font-size:1rem;
+            font-weight:700;
+            color:var(--text);
+            margin-bottom:6px;
+        }
+
+        .upload-desc {
+            font-size:0.875rem;
+            color:var(--text-secondary);
+        }
+
+        /* LIST ITEM */
+        .list-item {
+            background:var(--card);
+            border-radius:12px;
+            padding:16px;
+            border:1px solid var(--border);
+            margin-bottom:12px;
+            display:flex;
+            align-items:center;
+            gap:16px;
+            cursor:pointer;
+        }
+
+        .item-icon {
+            width:48px;
+            height:48px;
+            border-radius:12px;
+            background:rgba(6,182,212,0.1);
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            color:#06b6d4;
+            font-size:1.25rem;
+            flex-shrink:0;
+        }
+
+        .item-content {
+            flex:1;
+            min-width:0;
+        }
+
+        .item-title {
+            font-size:1rem;
+            font-weight:700;
+            color:var(--text);
+            margin-bottom:4px;
+        }
+
+        .item-desc {
+            font-size:0.875rem;
+            color:var(--text-secondary);
+        }
+
+        .item-badge {
+            padding:6px 12px;
+            border-radius:20px;
+            font-size:0.75rem;
+            font-weight:700;
+            flex-shrink:0;
+        }
+
+        .badge-success {
+            background:rgba(16,185,129,0.15);
+            color:#10b981;
+        }
+
+        .badge-danger {
+            background:rgba(239,68,68,0.15);
+            color:#ef4444;
+        }
+
+        /* EMPTY STATE */
+        .empty-state {
+            padding:60px 20px;
+            text-align:center;
+        }
+
+        .empty-icon {
+            width:100px;
+            height:100px;
+            margin:0 auto 20px;
+            background:rgba(6,182,212,0.1);
+            border-radius:20px;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            font-size:3rem;
+            color:#06b6d4;
+        }
+
+        .empty-title {
+            font-size:1.25rem;
+            font-weight:700;
+            color:var(--text);
+            margin-bottom:8px;
+        }
+
+        .empty-desc {
+            font-size:0.938rem;
+            color:var(--text-secondary);
+        }
+
+        /* FLOATING ACTION */
+        .fab {
+            position:fixed;
+            bottom:20px;
+            right:20px;
+            width:56px;
+            height:56px;
+            background:linear-gradient(135deg,#06b6d4,#0891b2);
+            border-radius:50%;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            color:white;
+            font-size:1.5rem;
+            box-shadow:0 8px 24px rgba(6,182,212,0.4);
+            cursor:pointer;
+            border:none;
+            z-index:50;
+        }
+
+        .fab:active {
+            transform:scale(0.95);
+        }
+
+        /* MODAL */
+        .modal {
+            position:fixed;
+            top:0;
+            left:0;
+            width:100%;
+            height:100%;
+            background:rgba(0,0,0,0.5);
+            display:none;
+            align-items:flex-end;
+            justify-content:center;
+            z-index:300;
+            animation:fadeIn 0.3s;
+        }
+
+        .modal.active {
+            display:flex;
+        }
+
+        @keyframes fadeIn {from{opacity:0}to{opacity:1}}
+
+        .modal-content {
+            background:var(--card);
+            width:100%;
+            max-height:90vh;
+            border-radius:20px 20px 0 0;
+            overflow-y:auto;
+            animation:slideUpModal 0.3s ease;
+        }
+
+        @keyframes slideUpModal {from{transform:translateY(100%)}to{transform:translateY(0)}}
+
+        .modal-header {
+            padding:20px;
+            border-bottom:1px solid var(--border);
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+            position:sticky;
+            top:0;
+            background:var(--card);
+            z-index:1;
+        }
+
+        .modal-title {
+            font-size:1.25rem;
+            font-weight:700;
+            color:var(--text);
+        }
+
+        .modal-close {
+            width:36px;
+            height:36px;
+            border-radius:50%;
+            background:var(--bg);
+            border:none;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            cursor:pointer;
+            font-size:1.25rem;
+            color:var(--text);
+        }
+
+        .modal-body {
+            padding:20px;
+        }
+
+        /* AI CHAT */
+        .chat-container {
+            display:flex;
+            flex-direction:column;
+            gap:16px;
+            margin-bottom:16px;
+        }
+
+        .chat-message {
+            display:flex;
+            gap:12px;
+        }
+
+        .chat-message.user {
+            flex-direction:row-reverse;
+        }
+
+        .chat-avatar {
+            width:36px;
+            height:36px;
+            border-radius:50%;
+            background:linear-gradient(135deg,#06b6d4,#0891b2);
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            color:white;
+            font-size:1rem;
+            flex-shrink:0;
+        }
+
+        .chat-message.user .chat-avatar {
+            background:var(--bg);
+            color:var(--text);
+        }
+
+        .chat-bubble {
+            max-width:75%;
+            padding:14px 16px;
+            border-radius:16px;
+            font-size:0.938rem;
+            line-height:1.5;
+        }
+
+        .chat-message.bot .chat-bubble {
+            background:var(--bg);
+            color:var(--text);
+            border-radius:16px 16px 16px 4px;
+        }
+
+        .chat-message.user .chat-bubble {
+            background:linear-gradient(135deg,#06b6d4,#0891b2);
+            color:white;
+            border-radius:16px 16px 4px 16px;
+        }
+
+        .chat-input-wrapper {
+            display:flex;
+            gap:12px;
+            padding:16px 20px;
+            border-top:1px solid var(--border);
+            background:var(--card);
+            position:sticky;
+            bottom:0;
+        }
+
+        .chat-input {
+            flex:1;
+            padding:12px 16px;
+            border:2px solid var(--border);
+            border-radius:24px;
+            font-size:0.938rem;
+            background:var(--bg);
+            color:var(--text);
+            font-family:inherit;
+        }
+
+        .chat-input:focus {
+            outline:none;
+            border-color:#06b6d4;
+        }
+
+        .chat-send {
+            width:48px;
+            height:48px;
+            border-radius:50%;
+            background:linear-gradient(135deg,#06b6d4,#0891b2);
+            border:none;
+            color:white;
+            font-size:1.25rem;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            cursor:pointer;
+        }
+
+        /* CHART */
+        .chart-wrapper {
+            height:250px;
+            margin-bottom:16px;
+        }
+
+        /* Logo Preview */
+        .logo-preview {
+            width:120px;
+            height:120px;
+            margin:0 auto 16px;
+            background:rgba(6,182,212,0.1);
+            border-radius:16px;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            overflow:hidden;
+            border:2px dashed var(--border);
+        }
+
+        .logo-preview img {
+            width:100%;
+            height:100%;
+            object-fit:cover;
+        }
+
+        .logo-preview i {
+            font-size:3rem;
+            color:#06b6d4;
+        }
+
+        /* UTILITIES */
+        .mt-20 {margin-top:20px;}
+        .mb-20 {margin-bottom:20px;}
+        .hidden {display:none;}
+
+        @media print {
+            body * {visibility:hidden;}
+            #printArea,#printArea * {visibility:visible;}
+            #printArea {position:absolute;left:0;top:0;width:100%;background:white;padding:20mm;}
+        }
+    </style>
+</head>
+<body>
+    <!-- LOGIN SCREEN -->
+    <div id="loginScreen">
+        <div class="login-container">
+            <div class="login-logo">
+                <div class="login-logo-icon" id="loginLogoIcon">
+                    <i class="fas fa-flask"></i>
+                </div>
+                <h1>SisterLab</h1>
+                <p>Lab Management</p>
+            </div>
+            <form onsubmit="return login(event)">
+                <div class="input-wrapper">
+                    <label>Username</label>
+                    <input type="text" id="username" placeholder="Masukkan username" required>
+                </div>
+                <div class="input-wrapper">
+                    <label>Password</label>
+                    <input type="password" id="password" placeholder="Masukkan password" required>
+                </div>
+                <button type="submit" class="btn-login">Masuk</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- MAIN APP -->
+    <div id="mainApp">
+        <!-- HEADER -->
+        <header class="header">
+            <div class="header-left">
+                <button class="hamburger" onclick="toggleSidebar()">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <div class="header-title">
+                    <h1>Puskesmas Meureubo</h1>
+                </div>
+            </div>
+            <div class="header-right">
+                <button class="icon-btn" onclick="showChat()">
+                    <i class="fas fa-comment-dots"></i>
+                </button>
+            </div>
+        </header>
+
+        <!-- SIDEBAR -->
+        <div class="sidebar-overlay" onclick="toggleSidebar()"></div>
+        <div class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <div class="sidebar-logo" id="sidebarLogoContainer">
+                    <i class="fas fa-flask"></i>
+                </div>
+                <div class="sidebar-info">
+                    <h2>SisterLab</h2>
+                    <p>Lab Management</p>
+                </div>
+            </div>
+
+            <div class="sidebar-user">
+                <div class="user-card">
+                    <div class="user-avatar">
+                        <span id="userInitial">A</span>
+                    </div>
+                    <div class="user-info">
+                        <h3 id="userName">Admin</h3>
+                        <p>user</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="sidebar-menu">
+                <div class="menu-item active" onclick="showPage('dashboard')">
+                    <i class="fas fa-th-large menu-icon"></i>
+                    <span class="menu-text">Dashboard</span>
+                </div>
+                <div class="menu-item" onclick="showPage('data')">
+                    <i class="fas fa-users menu-icon"></i>
+                    <span class="menu-text">Data Pasien</span>
+                </div>
+                <div class="menu-item" onclick="showPage('input')">
+                    <i class="fas fa-flask menu-icon"></i>
+                    <span class="menu-text">Input Lab</span>
+                </div>
+                <div class="menu-item" onclick="showPage('settings')">
+                    <i class="fas fa-cog menu-icon"></i>
+                    <span class="menu-text">Pengaturan</span>
+                </div>
+                <div class="menu-item" onclick="toggleTheme()">
+                    <i class="fas fa-moon menu-icon" id="themeIcon"></i>
+                    <span class="menu-text">Mode Gelap</span>
+                </div>
+                <div class="menu-item logout" onclick="logout()">
+                    <i class="fas fa-sign-out-alt menu-icon"></i>
+                    <span class="menu-text">Keluar</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- MAIN CONTENT -->
+        <main class="main">
+            <!-- DASHBOARD PAGE -->
+            <div id="dashboardPage">
+                <div class="welcome-card">
+                    <h2>Selamat Datang di SisterLab</h2>
+                    <p>Sistem Informasi Laboratorium Puskesmas Meureubo</p>
+                </div>
+
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-header">
+                            <div class="stat-title">Total Pasien</div>
+                            <div class="stat-icon blue">
+                                <i class="fas fa-users"></i>
+                            </div>
+                        </div>
+                        <div class="stat-value" id="totalPatients">0</div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-header">
+                            <div class="stat-title">Total Pemeriksaan</div>
+                            <div class="stat-icon teal">
+                                <i class="fas fa-flask"></i>
+                            </div>
+                        </div>
+                        <div class="stat-value" id="totalTests">0</div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-header">
+                            <div class="stat-title">Pasien Bulan Ini</div>
+                            <div class="stat-icon green">
+                                <i class="fas fa-chart-line"></i>
+                            </div>
+                        </div>
+                        <div class="stat-value" id="monthPatients">0</div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-header">
+                            <div class="stat-title">Aktif Hari Ini</div>
+                            <div class="stat-icon red">
+                                <i class="fas fa-heartbeat"></i>
+                            </div>
+                        </div>
+                        <div class="stat-value" id="todayActive">Buka</div>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <div class="section-header">
+                        <h3 class="section-title">Distribusi Pemeriksaan Lab</h3>
+                    </div>
+                    <div class="card">
+                        <div class="chart-wrapper">
+                            <canvas id="labChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <div class="section-header">
+                        <h3 class="section-title">Distribusi Gender Pasien</h3>
+                    </div>
+                    <div class="card">
+                        <div class="chart-wrapper">
+                            <canvas id="genderChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- DATA PASIEN PAGE -->
+            <div id="dataPage" class="hidden">
+                <div class="section-header">
+                    <h3 class="section-title">Data Pasien</h3>
+                    <span class="section-action" onclick="showAddPatientFromData()">Tambah Pasien</span>
+                </div>
+
+                <div class="card">
+                    <div class="form-group">
+                        <input type="text" class="form-input" id="searchInput" placeholder="Cari berdasarkan nama, NIK, atau kategori..." oninput="searchPatients()">
+                    </div>
+                </div>
+
+                <div id="patientList"></div>
+            </div>
+
+            <!-- INPUT LAB PAGE -->
+            <div id="inputPage" class="hidden">
+                <div class="section-header">
+                    <h3 class="section-title">Tambah Pasien Baru</h3>
+                </div>
+
+                <div class="card">
+                    <div class="upload-area" onclick="document.getElementById('photoUpload').click()">
+                        <input type="file" id="photoUpload" accept="image/*" style="display:none;" onchange="handlePhotoUpload(event)">
+                        <div class="upload-icon">
+                            <i class="fas fa-camera"></i>
+                        </div>
+                        <div class="upload-title">Upload foto catatan pasien</div>
+                        <div class="upload-desc">AI akan otomatis mengisi form</div>
+                    </div>
+                </div>
+
+                <form id="patientForm" onsubmit="return savePatient(event)">
+                    <div class="card">
+                        <div class="card-title">
+                            <div class="card-icon">
+                                <i class="fas fa-user"></i>
+                            </div>
+                            Data Pasien
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Tanggal Pemeriksaan</label>
+                            <input type="date" class="form-input" id="tanggal" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Nama Lengkap</label>
+                            <input type="text" class="form-input" id="nama" placeholder="Nama pasien" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">NIK / No. BPJS</label>
+                            <input type="text" class="form-input" id="nik" placeholder="16 digit NIK">
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Jenis Kelamin</label>
+                            <select class="form-select" id="jenisKelamin" required>
+                                <option value="">Pilih jenis kelamin</option>
+                                <option value="Laki-laki">Laki-laki</option>
+                                <option value="Perempuan">Perempuan</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Umur (tahun)</label>
+                            <input type="number" class="form-input" id="umur" placeholder="Usia pasien" min="0" max="150">
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">No. Telepon</label>
+                            <input type="tel" class="form-input" id="telepon" placeholder="08xxxxxxxxxx">
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Alamat</label>
+                            <textarea class="form-textarea" id="alamat" placeholder="Alamat lengkap pasien"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-title">
+                            <div class="card-icon">
+                                <i class="fas fa-vial"></i>
+                            </div>
+                            Kategori Pemeriksaan
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Kategori Pemeriksaan</label>
+                            <select class="form-select" id="kategori" onchange="showKategoriFields()" required>
+                                <option value="">Pilih kategori</option>
+                                <option value="Hematologi">Hematologi</option>
+                                <option value="Kimia Darah">Kimia Darah</option>
+                                <option value="Urinalisis">Urinalisis</option>
+                                <option value="Imunoserologi">Imunoserologi</option>
+                                <option value="Mikrobiologi">Mikrobiologi</option>
+                            </select>
+                        </div>
+
+                        <div id="kategoriFields"></div>
+                    </div>
+
+                    <div class="card">
+                        <div class="form-group">
+                            <label class="form-label">Catatan Tambahan</label>
+                            <textarea class="form-textarea" id="catatan" placeholder="Tambahkan catatan pemeriksaan..."></textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Nama Petugas Lab</label>
+                            <input type="text" class="form-input" id="petugas" placeholder="Nama petugas lab">
+                        </div>
+                    </div>
+
+                    <div class="btn-group">
+                        <button type="submit" class="btn btn-primary btn-full">
+                            <i class="fas fa-save"></i>
+                            Simpan Data
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- SETTINGS PAGE -->
+            <div id="settingsPage" class="hidden">
+                <div class="section-header">
+                    <h3 class="section-title">Pengaturan</h3>
+                </div>
+
+                <div class="section">
+                    <div class="section-header">
+                        <h3 class="section-title">Logo Aplikasi</h3>
+                    </div>
+
+                    <div class="card">
+                        <div class="logo-preview" id="logoPreview">
+                            <i class="fas fa-flask"></i>
+                        </div>
+                        <input type="file" id="logoUpload" accept="image/*" style="display:none;" onchange="handleLogoUpload(event)">
+                        <button type="button" class="btn btn-primary btn-full" onclick="document.getElementById('logoUpload').click()">
+                            <i class="fas fa-upload"></i>
+                            Upload Logo Puskesmas
+                        </button>
+                        <button type="button" class="btn btn-secondary btn-full mt-20" onclick="resetLogo()">
+                            <i class="fas fa-redo"></i>
+                            Reset ke Default
+                        </button>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <div class="section-header">
+                        <h3 class="section-title">Backup & Restore Database</h3>
+                    </div>
+
+                    <div class="list-item" onclick="downloadBackup()">
+                        <div class="item-icon" style="background:rgba(16,185,129,0.1);color:#10b981;">
+                            <i class="fas fa-download"></i>
+                        </div>
+                        <div class="item-content">
+                            <div class="item-title">Download Backup</div>
+                            <div class="item-desc">Cadangkan atau pulihkan data laboratorium</div>
+                        </div>
+                    </div>
+
+                    <div class="list-item" onclick="document.getElementById('restoreFile').click()">
+                        <input type="file" id="restoreFile" accept=".json" style="display:none;" onchange="restoreBackup(event)">
+                        <div class="item-icon" style="background:rgba(59,130,246,0.1);color:#3b82f6;">
+                            <i class="fas fa-upload"></i>
+                        </div>
+                        <div class="item-content">
+                            <div class="item-title">Restore Backup</div>
+                            <div class="item-desc">Upload file backup untuk restore data</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <div class="section-header">
+                        <h3 class="section-title" style="color:#ef4444;">Danger Zone</h3>
+                    </div>
+
+                    <div class="list-item" onclick="resetDatabase()">
+                        <div class="item-icon" style="background:rgba(239,68,68,0.1);color:#ef4444;">
+                            <i class="fas fa-trash"></i>
+                        </div>
+                        <div class="item-content">
+                            <div class="item-title" style="color:#ef4444;">Reset Database</div>
+                            <div class="item-desc">Hapus semua data pasien dan pemeriksaan</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <div class="section-header">
+                        <h3 class="section-title">Informasi Sistem</h3>
+                    </div>
+
+                    <div class="card">
+                        <div style="display:flex;justify-content:space-between;padding:12px 0;border-bottom:1px solid var(--border);">
+                            <span style="color:var(--text-secondary);font-size:0.938rem;">Versi Aplikasi</span>
+                            <span style="font-weight:700;">1.0.0</span>
+                        </div>
+                        <div style="display:flex;justify-content:space-between;padding:12px 0;border-bottom:1px solid var(--border);">
+                            <span style="color:var(--text-secondary);font-size:0.938rem;">Sistem</span>
+                            <span style="font-weight:700;">SisterLab - Puskesmas Meureubo</span>
+                        </div>
+                        <div style="display:flex;justify-content:space-between;padding:12px 0;">
+                            <span style="color:var(--text-secondary);font-size:0.938rem;">Teknologi</span>
+                            <span style="font-weight:700;">HTML + CSS + JavaScript</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- FAB -->
+        <button class="fab" onclick="showAddPatient()">
+            <i class="fas fa-plus"></i>
+        </button>
+
+        <!-- AI CHAT MODAL -->
+        <div class="modal" id="chatModal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="modal-title">
+                        <i class="fas fa-robot"></i>
+                        AI Assistant
+                    </h3>
+                    <button class="modal-close" onclick="hideChat()">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p style="font-size:0.875rem;color:var(--text-secondary);margin-bottom:20px;">
+                        Asisten Lab Virtual
+                    </p>
+                    <div class="chat-container" id="chatContainer">
+                        <div class="chat-message bot">
+                            <div class="chat-avatar">
+                                <i class="fas fa-robot"></i>
+                            </div>
+                            <div class="chat-bubble">
+                                Halo! Saya asisten virtual laboratorium. Ada yang bisa saya bantu?
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="chat-input-wrapper">
+                    <input type="text" class="chat-input" id="chatInput" placeholder="Ketik pesan..." onkeypress="if(event.key==='Enter')sendMessage()">
+                    <button class="chat-send" onclick="sendMessage()">
+                        <i class="fas fa-paper-plane"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- DETAIL MODAL -->
+        <div class="modal" id="detailModal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="modal-title">Detail Pasien</h3>
+                    <button class="modal-close" onclick="hideDetail()">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <div class="modal-body" id="detailContent">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="printArea" style="display:none;"></div>
+
+    <script>
+        let currentUser=null;
+        let db=[];
+        let chart1=null;
+        let chart2=null;
+        let appLogo=null;
+
+        // INIT
+        document.addEventListener('DOMContentLoaded',()=>{
+            document.getElementById('tanggal').value=new Date().toISOString().split('T')[0];
+            loadDB();
+            loadLogo();
+            checkSession();
+        });
+
+        // AUTH
+        function login(e) {
+            e.preventDefault();
+            const u=document.getElementById('username').value;
+            const p=document.getElementById('password').value;
+            const users={
+                admin:{pass:'admin123',name:'Administrator'},
+                mama:{pass:'mama123',name:'Mama'}
+            };
+            
+            if(users[u]&&users[u].pass===p) {
+                currentUser={username:u,fullName:users[u].name,loginTime:new Date().toISOString()};
+                sessionStorage.setItem('sisterlab_user',JSON.stringify(currentUser));
+                Swal.fire({
+                    icon:'success',
+                    title:'Login Berhasil!',
+                    text:`Selamat datang, ${currentUser.fullName}`,
+                    timer:1500,
+                    showConfirmButton:false
+                }).then(()=>showApp());
+            } else {
+                Swal.fire({
+                    icon:'error',
+                    title:'Login Gagal',
+                    text:'Username atau password salah!'
+                });
+            }
+        }
+
+        function checkSession() {
+            const saved=sessionStorage.getItem('sisterlab_user');
+            if(saved) {
+                currentUser=JSON.parse(saved);
+                showApp();
+            }
+        }
+
+        function showApp() {
+            document.getElementById('loginScreen').style.display='none';
+            document.getElementById('mainApp').style.display='block';
+            document.getElementById('userName').textContent=currentUser.fullName;
+            document.getElementById('userInitial').textContent=currentUser.fullName.charAt(0).toUpperCase();
+            updateDashboard();
+            renderPatients();
+            applyLogo();
+        }
+
+        function logout() {
+            Swal.fire({
+                title:'Logout?',
+                text:'Anda yakin ingin keluar?',
+                icon:'question',
+                showCancelButton:true,
+                confirmButtonText:'Ya',
+                cancelButtonText:'Batal'
+            }).then(r=>{
+                if(r.isConfirmed) {
+                    sessionStorage.removeItem('sisterlab_user');
+                    location.reload();
+                }
+            });
+        }
+
+        // UI
+        function toggleSidebar() {
+            const sidebar=document.getElementById('sidebar');
+            const overlay=document.querySelector('.sidebar-overlay');
+            sidebar.classList.toggle('active');
+            overlay.classList.toggle('active');
+        }
+
+        function showPage(page) {
+            // Close sidebar
+            toggleSidebar();
+            
+            // Update menu active state
+            document.querySelectorAll('.menu-item').forEach(m=>m.classList.remove('active'));
+            
+            // Hide all pages
+            document.getElementById('dashboardPage').classList.add('hidden');
+            document.getElementById('dataPage').classList.add('hidden');
+            document.getElementById('inputPage').classList.add('hidden');
+            document.getElementById('settingsPage').classList.add('hidden');
+            
+            // Show selected page
+            if(page==='dashboard') {
+                document.getElementById('dashboardPage').classList.remove('hidden');
+                document.querySelectorAll('.menu-item')[0].classList.add('active');
+                updateDashboard();
+            } else if(page==='data') {
+                document.getElementById('dataPage').classList.remove('hidden');
+                document.querySelectorAll('.menu-item')[1].classList.add('active');
+                renderPatients();
+            } else if(page==='input') {
+                document.getElementById('inputPage').classList.remove('hidden');
+                document.querySelectorAll('.menu-item')[2].classList.add('active');
+            } else if(page==='settings') {
+                document.getElementById('settingsPage').classList.remove('hidden');
+                document.querySelectorAll('.menu-item')[3].classList.add('active');
+            }
+        }
+
+        function showAddPatient() {
+            showPage('input');
+        }
+
+        function showAddPatientFromData() {
+            showPage('input');
+        }
+
+        function toggleTheme() {
+            const html=document.documentElement;
+            const icon=document.getElementById('themeIcon');
+            if(html.getAttribute('data-theme')==='dark') {
+                html.removeAttribute('data-theme');
+                icon.className='fas fa-moon menu-icon';
+                localStorage.setItem('theme','light');
+            } else {
+                html.setAttribute('data-theme','dark');
+                icon.className='fas fa-sun menu-icon';
+                localStorage.setItem('theme','dark');
+            }
+        }
+
+        const savedTheme=localStorage.getItem('theme');
+        if(savedTheme==='dark') {
+            document.documentElement.setAttribute('data-theme','dark');
+            setTimeout(()=>{
+                const icon=document.getElementById('themeIcon');
+                if(icon)icon.className='fas fa-sun menu-icon';
+            },100);
+        }
+
+        // DATABASE
+        function loadDB() {
+            const saved=localStorage.getItem('sisterlab_db');
+            if(saved) db=JSON.parse(saved);
+        }
+
+        function saveDB() {
+            localStorage.setItem('sisterlab_db',JSON.stringify(db));
+            updateDashboard();
+            renderPatients();
+        }
+
+        // LOGO
+        function loadLogo() {
+            const saved=localStorage.getItem('sisterlab_logo');
+            if(saved) appLogo=saved;
+        }
+
+        function applyLogo() {
+            if(!appLogo)return;
+            
+            // Apply to login screen
+            const loginIcon=document.getElementById('loginLogoIcon');
+            if(loginIcon) {
+                loginIcon.innerHTML=`<img src="${appLogo}" alt="Logo">`;
+            }
+            
+            // Apply to sidebar
+            const sidebarLogo=document.getElementById('sidebarLogoContainer');
+            if(sidebarLogo) {
+                sidebarLogo.innerHTML=`<img src="${appLogo}" alt="Logo">`;
+            }
+            
+            // Apply to settings preview
+            const preview=document.getElementById('logoPreview');
+            if(preview) {
+                preview.innerHTML=`<img src="${appLogo}" alt="Logo">`;
+            }
+        }
+
+        function handleLogoUpload(e) {
+            const file=e.target.files[0];
+            if(!file)return;
+            
+            if(!file.type.startsWith('image/')) {
+                Swal.fire({
+                    icon:'error',
+                    title:'File Tidak Valid',
+                    text:'Silakan upload file gambar (PNG, JPG, SVG)'
+                });
+                return;
+            }
+            
+            const reader=new FileReader();
+            reader.onload=function(ev) {
+                appLogo=ev.target.result;
+                localStorage.setItem('sisterlab_logo',appLogo);
+                applyLogo();
+                
+                Swal.fire({
+                    icon:'success',
+                    title:'Logo Berhasil Diupdate!',
+                    timer:1500,
+                    showConfirmButton:false
+                });
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function resetLogo() {
+            Swal.fire({
+                title:'Reset Logo?',
+                text:'Logo akan dikembalikan ke default',
+                icon:'question',
+                showCancelButton:true,
+                confirmButtonText:'Ya',
+                cancelButtonText:'Batal'
+            }).then(r=>{
+                if(r.isConfirmed) {
+                    appLogo=null;
+                    localStorage.removeItem('sisterlab_logo');
+                    
+                    // Reset to default icon
+                    document.getElementById('loginLogoIcon').innerHTML='<i class="fas fa-flask"></i>';
+                    document.getElementById('sidebarLogoContainer').innerHTML='<i class="fas fa-flask"></i>';
+                    document.getElementById('logoPreview').innerHTML='<i class="fas fa-flask"></i>';
+                    
+                    Swal.fire({
+                        icon:'success',
+                        title:'Logo Direset!',
+                        timer:1500,
+                        showConfirmButton:false
+                    });
+                }
+            });
+        }
+
+        // DASHBOARD
+        function updateDashboard() {
+            document.getElementById('totalPatients').textContent=db.length;
+            document.getElementById('totalTests').textContent=db.length;
+            
+            const month=new Date().toISOString().slice(0,7);
+            const monthCount=db.filter(d=>d.tanggal&&d.tanggal.startsWith(month)).length;
+            document.getElementById('monthPatients').textContent=monthCount;
+            
+            updateCharts();
+        }
+
+        function updateCharts() {
+            // Lab Distribution
+            const ctx1=document.getElementById('labChart');
+            if(!ctx1)return;
+            
+            const categories={};
+            db.forEach(p=>{
+                const kat=p.kategori||'Lainnya';
+                categories[kat]=(categories[kat]||0)+1;
+            });
+            
+            if(chart1)chart1.destroy();
+            chart1=new Chart(ctx1,{
+                type:'doughnut',
+                data:{
+                    labels:Object.keys(categories),
+                    datasets:[{
+                        data:Object.values(categories),
+                        backgroundColor:['#06b6d4','#14b8a6','#10b981','#f59e0b','#ef4444'],
+                        borderWidth:0
+                    }]
+                },
+                options:{
+                    responsive:true,
+                    maintainAspectRatio:false,
+                    plugins:{
+                        legend:{position:'bottom',labels:{padding:15,font:{size:12}}}
+                    }
+                }
+            });
+            
+            // Gender Distribution
+            const ctx2=document.getElementById('genderChart');
+            if(!ctx2)return;
+            
+            let l=0,p=0;
+            db.forEach(d=>{
+                if(d.jenisKelamin==='Laki-laki')l++;
+                else if(d.jenisKelamin==='Perempuan')p++;
+            });
+            
+            if(chart2)chart2.destroy();
+            chart2=new Chart(ctx2,{
+                type:'bar',
+                data:{
+                    labels:['Laki-laki','Perempuan'],
+                    datasets:[{
+                        label:'Jumlah Pasien',
+                        data:[l,p],
+                        backgroundColor:['#06b6d4','#ec4899'],
+                        borderRadius:8
+                    }]
+                },
+                options:{
+                    responsive:true,
+                    maintainAspectRatio:false,
+                    plugins:{legend:{display:false}},
+                    scales:{y:{beginAtZero:true,ticks:{stepSize:1}}}
+                }
+            });
+        }
+
+        // PATIENTS
+        function renderPatients() {
+            const container=document.getElementById('patientList');
+            if(!container)return;
+            
+            if(db.length===0) {
+                container.innerHTML=`
+                    <div class="empty-state">
+                        <div class="empty-icon"><i class="fas fa-inbox"></i></div>
+                        <div class="empty-title">Belum ada data pasien</div>
+                        <div class="empty-desc">Mulai dengan menambahkan pasien baru</div>
+                    </div>
+                `;
+                return;
+            }
+            
+            let html='';
+            db.slice().reverse().forEach(p=>{
+                html+=`
+                    <div class="list-item" onclick="showPatientDetail('${p.id}')">
+                        <div class="item-icon">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <div class="item-content">
+                            <div class="item-title">${p.nama}</div>
+                            <div class="item-desc">${p.kategori||'Tidak ada kategori'} • ${formatDate(p.tanggal)}</div>
+                        </div>
+                        <div class="item-badge badge-success">
+                            ${p.jenisKelamin==='Laki-laki'?'L':'P'}
+                        </div>
+                    </div>
+                `;
+            });
+            container.innerHTML=html;
+        }
+
+        function searchPatients() {
+            const query=document.getElementById('searchInput').value.toLowerCase();
+            const container=document.getElementById('patientList');
+            
+            if(!query) {
+                renderPatients();
+                return;
+            }
+            
+            const filtered=db.filter(p=>
+                p.nama.toLowerCase().includes(query)||
+                (p.nik&&p.nik.toLowerCase().includes(query))||
+                (p.kategori&&p.kategori.toLowerCase().includes(query))
+            );
+            
+            if(filtered.length===0) {
+                container.innerHTML=`
+                    <div class="empty-state">
+                        <div class="empty-icon"><i class="fas fa-search"></i></div>
+                        <div class="empty-title">Tidak ditemukan</div>
+                        <div class="empty-desc">Coba kata kunci lain</div>
+                    </div>
+                `;
+                return;
+            }
+            
+            let html='';
+            filtered.slice().reverse().forEach(p=>{
+                html+=`
+                    <div class="list-item" onclick="showPatientDetail('${p.id}')">
+                        <div class="item-icon">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <div class="item-content">
+                            <div class="item-title">${p.nama}</div>
+                            <div class="item-desc">${p.kategori||'Tidak ada kategori'} • ${formatDate(p.tanggal)}</div>
+                        </div>
+                        <div class="item-badge badge-success">
+                            ${p.jenisKelamin==='Laki-laki'?'L':'P'}
+                        </div>
+                    </div>
+                `;
+            });
+            container.innerHTML=html;
+        }
+
+        function showPatientDetail(id) {
+            const p=db.find(x=>x.id===id);
+            if(!p)return;
+            
+            let html=`
+                <div class="card">
+                    <div style="margin-bottom:20px;padding-bottom:20px;border-bottom:1px solid var(--border);">
+                        <div style="font-size:0.875rem;color:var(--text-secondary);margin-bottom:6px;">Nama Pasien</div>
+                        <div style="font-size:1.125rem;font-weight:700;color:var(--text);">${p.nama}</div>
+                    </div>
+                    <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin-bottom:16px;">
+                        <div>
+                            <div style="font-size:0.813rem;color:var(--text-secondary);margin-bottom:4px;">NIK/BPJS</div>
+                            <div style="font-weight:600;">${p.nik||'-'}</div>
+                        </div>
+                        <div>
+                            <div style="font-size:0.813rem;color:var(--text-secondary);margin-bottom:4px;">Jenis Kelamin</div>
+                            <div style="font-weight:600;">${p.jenisKelamin}</div>
+                        </div>
+                        <div>
+                            <div style="font-size:0.813rem;color:var(--text-secondary);margin-bottom:4px;">Umur</div>
+                            <div style="font-weight:600;">${p.umur||'-'} tahun</div>
+                        </div>
+                        <div>
+                            <div style="font-size:0.813rem;color:var(--text-secondary);margin-bottom:4px;">Tanggal</div>
+                            <div style="font-weight:600;">${formatDate(p.tanggal)}</div>
+                        </div>
+                    </div>
+                    ${p.telepon?`
+                        <div style="margin-bottom:16px;">
+                            <div style="font-size:0.813rem;color:var(--text-secondary);margin-bottom:4px;">Telepon</div>
+                            <div style="font-weight:600;">${p.telepon}</div>
+                        </div>
+                    `:''}
+                    ${p.alamat?`
+                        <div style="margin-bottom:16px;">
+                            <div style="font-size:0.813rem;color:var(--text-secondary);margin-bottom:4px;">Alamat</div>
+                            <div style="font-weight:600;">${p.alamat}</div>
+                        </div>
+                    `:''}
+                    <div style="margin-bottom:16px;">
+                        <div style="font-size:0.813rem;color:var(--text-secondary);margin-bottom:4px;">Kategori Pemeriksaan</div>
+                        <div style="font-weight:600;">${p.kategori}</div>
+                    </div>
+                    ${p.hasil?`
+                        <div style="margin-bottom:16px;">
+                            <div style="font-size:0.813rem;color:var(--text-secondary);margin-bottom:8px;">Hasil Pemeriksaan</div>
+                            <div style="background:var(--bg);padding:12px;border-radius:8px;font-size:0.938rem;">${p.hasil}</div>
+                        </div>
+                    `:''}
+                    ${p.catatan?`
+                        <div style="margin-bottom:16px;">
+                            <div style="font-size:0.813rem;color:var(--text-secondary);margin-bottom:8px;">Catatan</div>
+                            <div style="background:var(--bg);padding:12px;border-radius:8px;font-size:0.938rem;">${p.catatan}</div>
+                        </div>
+                    `:''}
+                    ${p.petugas?`
+                        <div>
+                            <div style="font-size:0.813rem;color:var(--text-secondary);margin-bottom:4px;">Petugas Lab</div>
+                            <div style="font-weight:600;">${p.petugas}</div>
+                        </div>
+                    `:''}
+                </div>
+                <div class="btn-group mt-20">
+                    <button class="btn btn-primary" onclick="printPatient('${p.id}')">
+                        <i class="fas fa-print"></i>
+                        Print
+                    </button>
+                    <button class="btn btn-secondary" onclick="deletePatient('${p.id}')">
+                        <i class="fas fa-trash"></i>
+                        Hapus
+                    </button>
+                </div>
+            `;
+            
+            document.getElementById('detailContent').innerHTML=html;
+            document.getElementById('detailModal').classList.add('active');
+        }
+
+        function hideDetail() {
+            document.getElementById('detailModal').classList.remove('active');
+        }
+
+        function deletePatient(id) {
+            Swal.fire({
+                title:'Hapus Data?',
+                text:'Data yang dihapus tidak dapat dikembalikan',
+                icon:'warning',
+                showCancelButton:true,
+                confirmButtonText:'Ya, Hapus',
+                cancelButtonText:'Batal',
+                confirmButtonColor:'#ef4444'
+            }).then(r=>{
+                if(r.isConfirmed) {
+                    db=db.filter(p=>p.id!==id);
+                    saveDB();
+                    hideDetail();
+                    Swal.fire({
+                        icon:'success',
+                        title:'Data Dihapus!',
+                        timer:1500,
+                        showConfirmButton:false
+                    });
+                }
+            });
+        }
+
+        // FORM
+        function showKategoriFields() {
+            const kategori=document.getElementById('kategori').value;
+            const container=document.getElementById('kategoriFields');
+            
+            if(!kategori) {
+                container.innerHTML='';
+                return;
+            }
+            
+            let fields='';
+            
+            if(kategori==='Hematologi') {
+                fields=`
+                    <div class="form-group">
+                        <label class="form-label">Hemoglobin (Hb)</label>
+                        <input type="text" class="form-input" id="hb" placeholder="g/dL">
+                        <div class="form-hint">Normal: P 12-16, L 13-18 g/dL</div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Leukosit</label>
+                        <input type="text" class="form-input" id="leukosit" placeholder="/µL">
+                        <div class="form-hint">Normal: 4000-10000 /µL</div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Eritrosit</label>
+                        <input type="text" class="form-input" id="eritrosit" placeholder="juta/µL">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Trombosit</label>
+                        <input type="text" class="form-input" id="trombosit" placeholder="/µL">
+                        <div class="form-hint">Normal: 150000-400000 /µL</div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Hematokrit</label>
+                        <input type="text" class="form-input" id="hematokrit" placeholder="%">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">LED</label>
+                        <input type="text" class="form-input" id="led" placeholder="mm/jam">
+                    </div>
+                `;
+            } else {
+                fields=`
+                    <div class="form-group">
+                        <label class="form-label">Hasil Pemeriksaan</label>
+                        <textarea class="form-textarea" id="hasilPemeriksaan" placeholder="Masukkan hasil pemeriksaan..."></textarea>
+                    </div>
+                `;
+            }
+            
+            container.innerHTML=fields;
+        }
+
+        function savePatient(e) {
+            e.preventDefault();
+            
+            // Collect hasil
+            let hasil='';
+            if(document.getElementById('kategori').value==='Hematologi') {
+                const fields=['hb','leukosit','eritrosit','trombosit','hematokrit','led'];
+                const hasilArr=[];
+                fields.forEach(f=>{
+                    const el=document.getElementById(f);
+                    if(el&&el.value) {
+                        hasilArr.push(`${f.toUpperCase()}: ${el.value}`);
+                    }
+                });
+                hasil=hasilArr.join(', ');
+            } else {
+                const hasilEl=document.getElementById('hasilPemeriksaan');
+                if(hasilEl)hasil=hasilEl.value;
+            }
+            
+            const data={
+                id:Date.now().toString(),
+                tanggal:document.getElementById('tanggal').value,
+                nama:document.getElementById('nama').value,
+                nik:document.getElementById('nik').value,
+                jenisKelamin:document.getElementById('jenisKelamin').value,
+                umur:document.getElementById('umur').value,
+                telepon:document.getElementById('telepon').value,
+                alamat:document.getElementById('alamat').value,
+                kategori:document.getElementById('kategori').value,
+                hasil:hasil,
+                catatan:document.getElementById('catatan').value,
+                petugas:document.getElementById('petugas').value,
+                timestamp:new Date().toISOString()
+            };
+            
+            db.push(data);
+            saveDB();
+            
+            Swal.fire({
+                icon:'success',
+                title:'Data Berhasil Disimpan!',
+                text:`Data ${data.nama} telah tersimpan`,
+                timer:1500,
+                showConfirmButton:false
+            }).then(()=>{
+                document.getElementById('patientForm').reset();
+                document.getElementById('tanggal').value=new Date().toISOString().split('T')[0];
+                document.getElementById('kategoriFields').innerHTML='';
+                showPage('data');
+            });
+        }
+
+        // OCR
+        function handlePhotoUpload(e) {
+            const file=e.target.files[0];
+            if(!file)return;
+            
+            Swal.fire({
+                title:'Memproses dengan AI OCR...',
+                html:'<div style="width:40px;height:40px;border:4px solid #f3f3f3;border-top:4px solid #06b6d4;border-radius:50%;animation:spin 1s linear infinite;margin:20px auto;"></div><style>@keyframes spin{to{transform:rotate(360deg)}}</style><p>Mohon tunggu...</p>',
+                showConfirmButton:false,
+                allowOutsideClick:false
+            });
+            
+            const reader=new FileReader();
+            reader.onload=function(ev) {
+                Tesseract.recognize(ev.target.result,'ind',{logger:m=>console.log(m)})
+                .then(({data:{text}})=>{
+                    Swal.close();
+                    const extracted=parseOCR(text);
+                    fillForm(extracted);
+                    Swal.fire({
+                        icon:'success',
+                        title:'OCR Berhasil!',
+                        text:'Data berhasil diekstrak. Silakan cek dan lengkapi.',
+                        confirmButtonText:'OK'
+                    });
+                })
+                .catch(err=>{
+                    Swal.close();
+                    Swal.fire({
+                        icon:'error',
+                        title:'OCR Gagal',
+                        text:'Terjadi kesalahan. Pastikan gambar jelas.'
+                    });
+                });
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function parseOCR(text) {
+            const data={};
+            const namaM=text.match(/nama\s*[:\-]?\s*([^\n]+)/i);
+            if(namaM)data.nama=namaM[1].trim();
+            const nikM=text.match(/nik\s*[:\-]?\s*(\d+)/i);
+            if(nikM)data.nik=nikM[1].trim();
+            const umurM=text.match(/umur\s*[:\-]?\s*(\d+)/i);
+            if(umurM)data.umur=umurM[1].trim();
+            if(text.match(/laki[\-\s]*laki/i))data.jenisKelamin='Laki-laki';
+            else if(text.match(/perempuan/i))data.jenisKelamin='Perempuan';
+            return data;
+        }
+
+        function fillForm(data) {
+            if(data.nama)document.getElementById('nama').value=data.nama;
+            if(data.nik)document.getElementById('nik').value=data.nik;
+            if(data.umur)document.getElementById('umur').value=data.umur;
+            if(data.jenisKelamin)document.getElementById('jenisKelamin').value=data.jenisKelamin;
+        }
+
+        // CHAT
+        function showChat() {
+            document.getElementById('chatModal').classList.add('active');
+        }
+
+        function hideChat() {
+            document.getElementById('chatModal').classList.remove('active');
+        }
+
+        function sendMessage() {
+            const input=document.getElementById('chatInput');
+            const msg=input.value.trim();
+            if(!msg)return;
+            
+            const container=document.getElementById('chatContainer');
+            
+            // User message
+            container.innerHTML+=`
+                <div class="chat-message user">
+                    <div class="chat-avatar">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <div class="chat-bubble">${msg}</div>
+                </div>
+            `;
+            
+            input.value='';
+            container.scrollTop=container.scrollHeight;
+            
+            // Bot response
+            setTimeout(()=>{
+                const response=getAIResponse(msg.toLowerCase());
+                container.innerHTML+=`
+                    <div class="chat-message bot">
+                        <div class="chat-avatar">
+                            <i class="fas fa-robot"></i>
+                        </div>
+                        <div class="chat-bubble">${response}</div>
+                    </div>
+                `;
+                container.scrollTop=container.scrollHeight;
+            },500);
+        }
+
+        function getAIResponse(msg) {
+            if(msg.includes('hb')||msg.includes('hemoglobin')) {
+                return 'Hemoglobin normal:<br>• Perempuan: 12-16 g/dL<br>• Laki-laki: 13-18 g/dL';
+            } else if(msg.includes('leukosit')) {
+                return 'Nilai normal leukosit: 4000-10000 /µL';
+            } else if(msg.includes('cara')||msg.includes('input')) {
+                return 'Untuk input data pasien, klik menu "Input Lab" atau tombol + di pojok kanan bawah.';
+            } else {
+                return 'Maaf, saya belum paham. Coba tanyakan tentang nilai normal lab atau cara menggunakan aplikasi.';
+            }
+        }
+
+        // BACKUP
+        function downloadBackup() {
+            if(db.length===0) {
+                Swal.fire({
+                    icon:'warning',
+                    title:'Database Kosong',
+                    text:'Tidak ada data untuk di-backup'
+                });
+                return;
+            }
+            
+            const backup={
+                version:'1.0',
+                timestamp:new Date().toISOString(),
+                user:currentUser.username,
+                data:db,
+                logo:appLogo
+            };
+            
+            const json=JSON.stringify(backup,null,2);
+            const blob=new Blob([json],{type:'application/json'});
+            const url=URL.createObjectURL(blob);
+            const a=document.createElement('a');
+            a.href=url;
+            a.download=`SisterLab_Backup_${new Date().toISOString().split('T')[0]}.json`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+            
+            Swal.fire({
+                icon:'success',
+                title:'Backup Berhasil!',
+                text:'File backup telah diunduh'
+            });
+        }
+
+        function restoreBackup(e) {
+            const file=e.target.files[0];
+            if(!file)return;
+            
+            const reader=new FileReader();
+            reader.onload=function(ev) {
+                try {
+                    const backup=JSON.parse(ev.target.result);
+                    if(!backup.data||!Array.isArray(backup.data)) {
+                        throw new Error('Format tidak valid');
+                    }
+                    
+                    Swal.fire({
+                        title:'Restore Database?',
+                        html:`<p>File berisi <strong>${backup.data.length}</strong> record</p><p style="color:#ef4444;">⚠️ Data saat ini akan diganti!</p>`,
+                        icon:'warning',
+                        showCancelButton:true,
+                        confirmButtonText:'Ya, Restore',
+                        cancelButtonText:'Batal'
+                    }).then(r=>{
+                        if(r.isConfirmed) {
+                            db=backup.data;
+                            if(backup.logo) {
+                                appLogo=backup.logo;
+                                localStorage.setItem('sisterlab_logo',appLogo);
+                                applyLogo();
+                            }
+                            saveDB();
+                            Swal.fire({
+                                icon:'success',
+                                title:'Restore Berhasil!',
+                                text:`${backup.data.length} data dipulihkan`
+                            });
+                        }
+                    });
+                } catch(err) {
+                    Swal.fire({
+                        icon:'error',
+                        title:'Restore Gagal',
+                        text:'File backup tidak valid'
+                    });
+                }
+            };
+            reader.readAsText(file);
+            e.target.value='';
+        }
+
+        function resetDatabase() {
+            Swal.fire({
+                title:'Reset Database?',
+                html:'<p style="color:#ef4444;font-weight:bold;">⚠️ PERINGATAN!</p><p>Semua data akan dihapus permanen!</p>',
+                icon:'warning',
+                input:'text',
+                inputPlaceholder:'Ketik "RESET" untuk konfirmasi',
+                showCancelButton:true,
+                confirmButtonText:'Ya, Reset',
+                cancelButtonText:'Batal',
+                confirmButtonColor:'#ef4444',
+                inputValidator:v=>{
+                    if(v!=='RESET')return 'Ketik "RESET" untuk melanjutkan';
+                }
+            }).then(r=>{
+                if(r.isConfirmed) {
+                    db=[];
+                    saveDB();
+                    Swal.fire({
+                        icon:'success',
+                        title:'Database Direset!',
+                        timer:1500,
+                        showConfirmButton:false
+                    });
+                }
+            });
+        }
+
+        // PRINT
+        function printPatient(id) {
+            const p=db.find(x=>x.id===id);
+            if(!p)return;
+            
+            const printArea=document.getElementById('printArea');
+            const logoHtml=appLogo?`<img src="${appLogo}" style="width:80px;height:80px;object-fit:cover;border-radius:12px;">`:'<div style="width:80px;height:80px;background:#06b6d4;border-radius:12px;"></div>';
+            
+            printArea.innerHTML=`
+                <div style="padding:20mm;font-family:'Inter',Arial,sans-serif;">
+                    <div style="display:flex;align-items:center;justify-content:space-between;border-bottom:3px double #000;padding-bottom:16px;margin-bottom:24px;">
+                        ${logoHtml}
+                        <div style="flex:1;text-align:center;">
+                            <h1 style="font-size:1.5rem;margin-bottom:4px;">PUSKESMAS MEUREUBO</h1>
+                            <p style="font-size:0.875rem;">Jl. Raya Meureubo, Kec. Meureubo, Kab. Aceh Barat</p>
+                        </div>
+                        <div style="width:80px;"></div>
+                    </div>
+                    <h2 style="text-align:center;margin:24px 0;">HASIL PEMERIKSAAN LABORATORIUM</h2>
+                    <table style="width:100%;margin-bottom:24px;">
+                        <tr><td style="width:150px;padding:6px;">Nama Pasien</td><td>: ${p.nama}</td></tr>
+                        <tr><td style="padding:6px;">NIK/BPJS</td><td>: ${p.nik||'-'}</td></tr>
+                        <tr><td style="padding:6px;">Jenis Kelamin</td><td>: ${p.jenisKelamin}</td></tr>
+                        <tr><td style="padding:6px;">Umur</td><td>: ${p.umur||'-'} tahun</td></tr>
+                        <tr><td style="padding:6px;">Tanggal</td><td>: ${formatDate(p.tanggal)}</td></tr>
+                        <tr><td style="padding:6px;">Kategori</td><td>: ${p.kategori}</td></tr>
+                    </table>
+                    ${p.hasil?`<div style="margin-bottom:24px;"><strong>Hasil:</strong><br>${p.hasil}</div>`:''}
+                    ${p.catatan?`<div style="margin-bottom:24px;"><strong>Catatan:</strong><br>${p.catatan}</div>`:''}
+                    <div style="margin-top:48px;text-align:right;">
+                        <p>Meureubo, ${new Date().toLocaleDateString('id-ID',{day:'numeric',month:'long',year:'numeric'})}</p>
+                        <p>Petugas Lab,</p>
+                        <p style="margin-top:64px;"><u>${p.petugas||currentUser.fullName}</u></p>
+                    </div>
+                </div>
+            `;
+            
+            printArea.style.display='block';
+            window.print();
+            setTimeout(()=>{printArea.style.display='none';},100);
+        }
+
+        // UTILS
+        function formatDate(d) {
+            if(!d)return'-';
+            const date=new Date(d);
+            return date.toLocaleDateString('id-ID',{day:'numeric',month:'short',year:'numeric'});
+        }
+
+        console.log('🏥 SisterLab v1.0 - FIXED');
+    </script>
+</body>
+</html>
