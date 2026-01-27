@@ -11,6 +11,7 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5.0.4/dist/tesseract.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
     
     <style>
         :root {
@@ -51,7 +52,7 @@
             left:0;
             width:100%;
             height:100%;
-            background:linear-gradient(135deg,#0891b2 0%,#06b6d4 100%);
+            background:linear-gradient(135deg,var(--primary-dark) 0%,var(--primary) 100%);
             display:flex;
             align-items:center;
             justify-content:center;
@@ -79,7 +80,7 @@
             width:80px;
             height:80px;
             margin:0 auto 20px;
-            background:linear-gradient(135deg,#06b6d4,#0891b2);
+            background:linear-gradient(135deg,var(--primary),var(--primary-dark));
             border-radius:20px;
             display:flex;
             align-items:center;
@@ -88,12 +89,17 @@
             color:white;
             box-shadow:0 8px 20px rgba(6,182,212,0.3);
             overflow:hidden;
+            position:relative;
         }
 
         .login-logo-icon img {
             width:100%;
             height:100%;
-            object-fit:cover;
+            object-fit:contain;
+            position:absolute;
+            top:0;
+            left:0;
+            z-index:10;
         }
 
         .login-logo h1 {
@@ -136,14 +142,14 @@
 
         .input-wrapper input:focus {
             outline:none;
-            border-color:#06b6d4;
+            border-color:var(--primary);
             box-shadow:0 0 0 3px rgba(6,182,212,0.1);
         }
 
         .btn-login {
             width:100%;
             padding:16px;
-            background:linear-gradient(135deg,#06b6d4,#0891b2);
+            background:linear-gradient(135deg,var(--primary),var(--primary-dark));
             color:white;
             border:none;
             border-radius:12px;
@@ -279,7 +285,7 @@
 
         .sidebar-header {
             padding:24px 20px;
-            background:linear-gradient(135deg,#06b6d4,#0891b2);
+            background:linear-gradient(135deg,var(--primary),var(--primary-dark));
             display:flex;
             align-items:center;
             gap:16px;
@@ -296,12 +302,17 @@
             font-size:2rem;
             color:white;
             overflow:hidden;
+            position:relative;
         }
 
         .sidebar-logo img {
             width:100%;
             height:100%;
-            object-fit:cover;
+            object-fit:contain;
+            position:absolute;
+            top:0;
+            left:0;
+            z-index:10;
         }
 
         .sidebar-info h2 {
@@ -333,7 +344,7 @@
         .user-avatar {
             width:48px;
             height:48px;
-            background:linear-gradient(135deg,#06b6d4,#0891b2);
+            background:linear-gradient(135deg,var(--primary),var(--primary-dark));
             border-radius:12px;
             display:flex;
             align-items:center;
@@ -375,7 +386,7 @@
 
         .menu-item.active {
             background:rgba(6,182,212,0.1);
-            border-left-color:#06b6d4;
+            border-left-color:var(--primary);
         }
 
         .menu-icon {
@@ -385,7 +396,7 @@
         }
 
         .menu-item.active .menu-icon {
-            color:#06b6d4;
+            color:var(--primary);
         }
 
         .menu-text {
@@ -413,7 +424,7 @@
 
         /* WELCOME CARD */
         .welcome-card {
-            background:linear-gradient(135deg,#06b6d4,#0891b2);
+            background:linear-gradient(135deg,var(--primary),var(--primary-dark));
             border-radius:20px;
             padding:28px 24px;
             color:white;
@@ -508,7 +519,7 @@
 
         .section-action {
             font-size:0.875rem;
-            color:#06b6d4;
+            color:var(--primary);
             font-weight:600;
             cursor:pointer;
         }
@@ -540,7 +551,7 @@
             display:flex;
             align-items:center;
             justify-content:center;
-            color:#06b6d4;
+            color:var(--primary);
             font-size:1.1rem;
         }
 
@@ -576,7 +587,7 @@
         .form-select:focus,
         .form-textarea:focus {
             outline:none;
-            border-color:#06b6d4;
+            border-color:var(--primary);
             box-shadow:0 0 0 3px rgba(6,182,212,0.1);
         }
 
@@ -611,7 +622,7 @@
         }
 
         .btn-primary {
-            background:linear-gradient(135deg,#06b6d4,#0891b2);
+            background:linear-gradient(135deg,var(--primary),var(--primary-dark));
             color:white;
             box-shadow:0 4px 12px rgba(6,182,212,0.3);
         }
@@ -624,6 +635,12 @@
             background:var(--bg);
             color:var(--text);
             border:2px solid var(--border);
+        }
+
+        .btn-danger {
+            background:#ef4444;
+            color:white;
+            box-shadow:0 4px 12px rgba(239,68,68,0.3);
         }
 
         .btn-full {
@@ -648,7 +665,7 @@
 
         .upload-area:active {
             background:rgba(6,182,212,0.05);
-            border-color:#06b6d4;
+            border-color:var(--primary);
         }
 
         .upload-icon {
@@ -661,7 +678,7 @@
             align-items:center;
             justify-content:center;
             font-size:2rem;
-            color:#06b6d4;
+            color:var(--primary);
         }
 
         .upload-title {
@@ -697,7 +714,7 @@
             display:flex;
             align-items:center;
             justify-content:center;
-            color:#06b6d4;
+            color:var(--primary);
             font-size:1.25rem;
             flex-shrink:0;
         }
@@ -753,7 +770,7 @@
             align-items:center;
             justify-content:center;
             font-size:3rem;
-            color:#06b6d4;
+            color:var(--primary);
         }
 
         .empty-title {
@@ -775,7 +792,7 @@
             right:20px;
             width:56px;
             height:56px;
-            background:linear-gradient(135deg,#06b6d4,#0891b2);
+            background:linear-gradient(135deg,var(--primary),var(--primary-dark));
             border-radius:50%;
             display:flex;
             align-items:center;
@@ -881,7 +898,7 @@
             width:36px;
             height:36px;
             border-radius:50%;
-            background:linear-gradient(135deg,#06b6d4,#0891b2);
+            background:linear-gradient(135deg,var(--primary),var(--primary-dark));
             display:flex;
             align-items:center;
             justify-content:center;
@@ -910,7 +927,7 @@
         }
 
         .chat-message.user .chat-bubble {
-            background:linear-gradient(135deg,#06b6d4,#0891b2);
+            background:linear-gradient(135deg,var(--primary),var(--primary-dark));
             color:white;
             border-radius:16px 16px 4px 16px;
         }
@@ -938,14 +955,14 @@
 
         .chat-input:focus {
             outline:none;
-            border-color:#06b6d4;
+            border-color:var(--primary);
         }
 
         .chat-send {
             width:48px;
             height:48px;
             border-radius:50%;
-            background:linear-gradient(135deg,#06b6d4,#0891b2);
+            background:linear-gradient(135deg,var(--primary),var(--primary-dark));
             border:none;
             color:white;
             font-size:1.25rem;
@@ -973,17 +990,101 @@
             justify-content:center;
             overflow:hidden;
             border:2px dashed var(--border);
+            position:relative;
         }
 
         .logo-preview img {
             width:100%;
             height:100%;
-            object-fit:cover;
+            object-fit:contain;
+            position:absolute;
+            top:0;
+            left:0;
+            z-index:10;
         }
 
         .logo-preview i {
             font-size:3rem;
-            color:#06b6d4;
+            color:var(--primary);
+        }
+
+        /* THEME PRESETS */
+        .theme-presets {
+            display:grid;
+            grid-template-columns:repeat(5,1fr);
+            gap:12px;
+            margin-bottom:20px;
+        }
+
+        .theme-preset {
+            height:50px;
+            border-radius:12px;
+            cursor:pointer;
+            border:3px solid transparent;
+            transition:all 0.2s;
+        }
+
+        .theme-preset:active {
+            transform:scale(0.95);
+        }
+
+        .theme-preset.active {
+            border-color:var(--text);
+        }
+
+        .theme-cyan {background:linear-gradient(135deg,#06b6d4,#0891b2);}
+        .theme-blue {background:linear-gradient(135deg,#3b82f6,#2563eb);}
+        .theme-green {background:linear-gradient(135deg,#10b981,#059669);}
+        .theme-purple {background:linear-gradient(135deg,#8b5cf6,#7c3aed);}
+        .theme-orange {background:linear-gradient(135deg,#f97316,#ea580c);}
+
+        /* LAB PARAMETER ROW */
+        .param-row {
+            background:var(--bg);
+            border-radius:12px;
+            padding:16px;
+            margin-bottom:12px;
+        }
+
+        .param-header {
+            display:flex;
+            align-items:center;
+            gap:12px;
+            margin-bottom:12px;
+        }
+
+        .param-checkbox {
+            width:24px;
+            height:24px;
+            accent-color:var(--primary);
+            cursor:pointer;
+        }
+
+        .param-name {
+            flex:1;
+            font-weight:600;
+            font-size:0.938rem;
+        }
+
+        .param-normal {
+            font-size:0.813rem;
+            color:var(--text-secondary);
+            margin-bottom:8px;
+        }
+
+        .param-input {
+            width:100%;
+            padding:10px 14px;
+            border:2px solid var(--border);
+            border-radius:10px;
+            font-size:0.938rem;
+            background:var(--card);
+            color:var(--text);
+        }
+
+        .param-input:focus {
+            outline:none;
+            border-color:var(--primary);
         }
 
         /* UTILITIES */
@@ -997,6 +1098,7 @@
             #printArea {position:absolute;left:0;top:0;width:100%;background:white;padding:20mm;}
         }
     </style>
+<script src="https://sites.super.myninja.ai/_assets/ninja-daytona-script.js"></script>
 </head>
 <body>
     <!-- LOGIN SCREEN -->
@@ -1009,7 +1111,7 @@
                 <h1>SisterLab</h1>
                 <p>Lab Management</p>
             </div>
-            <form onsubmit="return login(event)">
+            <form id="loginForm" onsubmit="return login(event)">
                 <div class="input-wrapper">
                     <label>Username</label>
                     <input type="text" id="username" placeholder="Masukkan username" required>
@@ -1083,10 +1185,6 @@
                 <div class="menu-item" onclick="showPage('settings')">
                     <i class="fas fa-cog menu-icon"></i>
                     <span class="menu-text">Pengaturan</span>
-                </div>
-                <div class="menu-item" onclick="toggleTheme()">
-                    <i class="fas fa-moon menu-icon" id="themeIcon"></i>
-                    <span class="menu-text">Mode Gelap</span>
                 </div>
                 <div class="menu-item logout" onclick="logout()">
                     <i class="fas fa-sign-out-alt menu-icon"></i>
@@ -1188,10 +1286,10 @@
             <!-- INPUT LAB PAGE -->
             <div id="inputPage" class="hidden">
                 <div class="section-header">
-                    <h3 class="section-title">Tambah Pasien Baru</h3>
+                    <h3 class="section-title" id="inputPageTitle">Tambah Pasien Baru</h3>
                 </div>
 
-                <div class="card">
+                <div class="card" id="photoUploadCard">
                     <div class="upload-area" onclick="document.getElementById('photoUpload').click()">
                         <input type="file" id="photoUpload" accept="image/*" style="display:none;" onchange="handlePhotoUpload(event)">
                         <div class="upload-icon">
@@ -1287,7 +1385,11 @@
                     </div>
 
                     <div class="btn-group">
-                        <button type="submit" class="btn btn-primary btn-full">
+                        <button type="button" class="btn btn-secondary btn-full" id="cancelEditBtn" onclick="cancelEdit()" style="display:none;">
+                            <i class="fas fa-times"></i>
+                            Batal Edit
+                        </button>
+                        <button type="submit" class="btn btn-primary btn-full" id="saveBtn">
                             <i class="fas fa-save"></i>
                             Simpan Data
                         </button>
@@ -1299,6 +1401,31 @@
             <div id="settingsPage" class="hidden">
                 <div class="section-header">
                     <h3 class="section-title">Pengaturan</h3>
+                </div>
+
+                <div class="section">
+                    <div class="section-header">
+                        <h3 class="section-title">Tema Aplikasi</h3>
+                    </div>
+
+                    <div class="card">
+                        <p class="mb-20" style="font-size:0.875rem;color:var(--text-secondary);">Pilih warna tema sesuai keinginan Anda</p>
+                        
+                        <div class="theme-presets">
+                            <div class="theme-preset theme-cyan active" onclick="changeTheme('cyan')" title="Cyan"></div>
+                            <div class="theme-preset theme-blue" onclick="changeTheme('blue')" title="Blue"></div>
+                            <div class="theme-preset theme-green" onclick="changeTheme('green')" title="Green"></div>
+                            <div class="theme-preset theme-purple" onclick="changeTheme('purple')" title="Purple"></div>
+                            <div class="theme-preset theme-orange" onclick="changeTheme('orange')" title="Orange"></div>
+                        </div>
+
+                        <div class="form-group">
+                            <button type="button" class="btn btn-primary btn-full" onclick="toggleDarkMode()">
+                                <i class="fas fa-moon" id="darkModeIcon"></i>
+                                <span id="darkModeText">Mode Gelap</span>
+                            </button>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="section">
@@ -1319,6 +1446,22 @@
                             <i class="fas fa-redo"></i>
                             Reset ke Default
                         </button>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <div class="section-header">
+                        <h3 class="section-title">Download Recap Bulanan</h3>
+                    </div>
+
+                    <div class="list-item" onclick="downloadRecap()">
+                        <div class="item-icon" style="background:rgba(16,185,129,0.1);color:#10b981;">
+                            <i class="fas fa-file-excel"></i>
+                        </div>
+                        <div class="item-content">
+                            <div class="item-title">Download Excel Recap</div>
+                            <div class="item-desc">Unduh data pasien lengkap dengan grafik</div>
+                        </div>
                     </div>
                 </div>
 
@@ -1373,7 +1516,7 @@
                     <div class="card">
                         <div style="display:flex;justify-content:space-between;padding:12px 0;border-bottom:1px solid var(--border);">
                             <span style="color:var(--text-secondary);font-size:0.938rem;">Versi Aplikasi</span>
-                            <span style="font-weight:700;">1.0.0</span>
+                            <span style="font-weight:700;">2.0.0</span>
                         </div>
                         <div style="display:flex;justify-content:space-between;padding:12px 0;border-bottom:1px solid var(--border);">
                             <span style="color:var(--text-secondary);font-size:0.938rem;">Sistem</span>
@@ -1452,36 +1595,120 @@
         let chart1=null;
         let chart2=null;
         let appLogo=null;
+        let currentTheme='cyan';
+        let isEditMode=false;
+        let editPatientId=null;
+
+        // THEME COLORS
+        const themes={
+            cyan:{primary:'#06b6d4',primaryDark:'#0891b2'},
+            blue:{primary:'#3b82f6',primaryDark:'#2563eb'},
+            green:{primary:'#10b981',primaryDark:'#059669'},
+            purple:{primary:'#8b5cf6',primaryDark:'#7c3aed'},
+            orange:{primary:'#f97316',primaryDark:'#ea580c'}
+        };
+
+        // LAB PARAMETERS
+        const labParameters={
+            Hematologi:[
+                {id:'hb',name:'Hemoglobin (Hb)',unit:'g/dL',normal:'P: 12-16, L: 13-18'},
+                {id:'leukosit',name:'Leukosit',unit:'/\u00b5L',normal:'4000-10000'},
+                {id:'eritrosit',name:'Eritrosit',unit:'juta/\u00b5L',normal:'P: 3.5-5.5, L: 4.3-5.9'},
+                {id:'trombosit',name:'Trombosit',unit:'/\u00b5L',normal:'150000-400000'},
+                {id:'hematokrit',name:'Hematokrit',unit:'%',normal:'P: 36-46, L: 40-52'},
+                {id:'led',name:'LED',unit:'mm/jam',normal:'P: 0-20, L: 0-15'},
+                {id:'mch',name:'MCH',unit:'pg',normal:'27-33'},
+                {id:'mchc',name:'MCHC',unit:'g/dL',normal:'33-37'},
+                {id:'mcv',name:'MCV',unit:'fL',normal:'80-100'}
+            ],
+            'Kimia Darah':[
+                {id:'gds',name:'Gula Darah Sewaktu (GDS)',unit:'mg/dL',normal:'70-140'},
+                {id:'gdp',name:'Gula Darah Puasa (GDP)',unit:'mg/dL',normal:'70-100'},
+                {id:'gd2pp',name:'Gula Darah 2 Jam PP (GD2PP)',unit:'mg/dL',normal:'<140'},
+                {id:'asamurat',name:'Asam Urat',unit:'mg/dL',normal:'P: 2.4-6.0, L: 3.4-7.0'},
+                {id:'kolesterol',name:'Kolesterol Total',unit:'mg/dL',normal:'<200'},
+                {id:'hdl',name:'HDL',unit:'mg/dL',normal:'>40'},
+                {id:'ldl',name:'LDL',unit:'mg/dL',normal:'<130'},
+                {id:'trigliserida',name:'Trigliserida',unit:'mg/dL',normal:'<150'},
+                {id:'sgot',name:'SGOT',unit:'U/L',normal:'P: 5-25, L: 5-40'},
+                {id:'sgpt',name:'SGPT',unit:'U/L',normal:'P: 5-35, L: 5-45'},
+                {id:'ureum',name:'Ureum',unit:'mg/dL',normal:'15-45'},
+                {id:'kreatinin',name:'Kreatinin',unit:'mg/dL',normal:'P: 0.5-1.1, L: 0.6-1.2'}
+            ],
+            Urinalisis:[
+                {id:'warna',name:'Warna',unit:'',normal:'Kuning jernih'},
+                {id:'berat_jenis',name:'Berat Jenis',unit:'',normal:'1.010-1.025'},
+                {id:'ph',name:'pH',unit:'',normal:'4.5-8.0'},
+                {id:'protein',name:'Protein',unit:'',normal:'Negatif'},
+                {id:'glukosa',name:'Glukosa',unit:'',normal:'Negatif'},
+                {id:'keton',name:'Keton',unit:'',normal:'Negatif'},
+                {id:'bilirubin',name:'Bilirubin',unit:'',normal:'Negatif'},
+                {id:'urobilinogen',name:'Urobilinogen',unit:'',normal:'Negatif'},
+                {id:'nitrit',name:'Nitrit',unit:'',normal:'Negatif'},
+                {id:'eritrosit_urin',name:'Eritrosit',unit:'',normal:'0-2'},
+                {id:'leukosit_urin',name:'Leukosit',unit:'',normal:'0-5'},
+                {id:'silinder',name:'Silinder',unit:'',normal:'Negatif'},
+                {id:'bakteri',name:'Bakteri',unit:'',normal:'Negatif'},
+                {id:'Kristal',name:'Kristal',unit:'',normal:'Negatif'}
+            ],
+            Imunoserologi:[
+                {id:'widal_o',name:'Widal O',unit:'titer',normal:'<1:80'},
+                {id:'widal_h',name:'Widal H',unit:'titer',normal:'<1:80'},
+                {id:'hbsag',name:'HBsAg',unit:'',normal:'Negatif'},
+                {id:'anti_hcv',name:'Anti-HCV',unit:'',normal:'Negatif'},
+                {id:'hiv',name:'HIV',unit:'',normal:'Negatif'},
+                {id:'rpr',name:'RPR/VDRL',unit:'',normal:'Negatif'},
+                {id:'tpa',name:'TPHA',unit:'',normal:'Negatif'},
+                {id:'chikungunya',name:'Chikungunya IgM/IgG',unit:'',normal:'Negatif'},
+                {id:'dengue_igm',name:'Dengue IgM',unit:'',normal:'Negatif'},
+                {id:'dengue_igg',name:'Dengue IgG',unit:'',normal:'Negatif'}
+            ],
+            Mikrobiologi:[
+                {id:'hematologi_kultur',name:'Hematologi',unit:'',normal:'Normal'},
+                {id:'leukosit_kultur',name:'Leukosit',unit:'',normal:'Normal'},
+                {id:'trombosit_kultur',name:'Trombosit',unit:'',normal:'Normal'},
+                {id:'kultur',name:'Kultur',unit:'',normal:'Negatif'},
+                {id:'biakan',name:'Biakan',unit:'',normal:'Negatif'},
+                {id:'sensitivitas',name:'Sensitivitas',unit:'',normal:'Normal'},
+                {id:'gram',name:'Pewarnaan Gram',unit:'',normal:'Normal'},
+                {id:'fungi',name:'Fungi',unit:'',normal:'Negatif'},
+                {id:'parasit',name:'Parasit',unit:'',normal:'Negatif'},
+                {id:'mikroskopis',name:'Pemeriksaan Mikroskopis',unit:'',normal:'Normal'}
+            ]
+        };
 
         // INIT
         document.addEventListener('DOMContentLoaded',()=>{
             document.getElementById('tanggal').value=new Date().toISOString().split('T')[0];
             loadDB();
             loadLogo();
+            loadTheme();
             checkSession();
+            
+            // Apply logo to login page immediately after loading
+            applyLogo();
         });
 
-        // AUTH
+        // AUTH - FIXED VERSION
         function login(e) {
             e.preventDefault();
-            const u=document.getElementById('username').value;
-            const p=document.getElementById('password').value;
+            const u=document.getElementById('username').value.trim();
+            const p=document.getElementById('password').value.trim();
             const users={
                 admin:{pass:'admin123',name:'Administrator'},
                 mama:{pass:'mama123',name:'Mama'}
             };
             
+            console.log('Attempting login for user:', u);
+            console.log('Password provided:', p ? '***' : 'empty');
+            
             if(users[u]&&users[u].pass===p) {
+                console.log('Login successful');
                 currentUser={username:u,fullName:users[u].name,loginTime:new Date().toISOString()};
                 sessionStorage.setItem('sisterlab_user',JSON.stringify(currentUser));
-                Swal.fire({
-                    icon:'success',
-                    title:'Login Berhasil!',
-                    text:`Selamat datang, ${currentUser.fullName}`,
-                    timer:1500,
-                    showConfirmButton:false
-                }).then(()=>showApp());
+                showApp();
             } else {
+                console.log('Login failed');
                 Swal.fire({
                     icon:'error',
                     title:'Login Gagal',
@@ -1493,12 +1720,19 @@
         function checkSession() {
             const saved=sessionStorage.getItem('sisterlab_user');
             if(saved) {
-                currentUser=JSON.parse(saved);
-                showApp();
+                try {
+                    currentUser=JSON.parse(saved);
+                    console.log('Session found, user:', currentUser.username);
+                    showApp();
+                } catch(e) {
+                    console.log('Invalid session data');
+                    sessionStorage.removeItem('sisterlab_user');
+                }
             }
         }
 
         function showApp() {
+            console.log('Showing app for user:', currentUser ? currentUser.username : 'unknown');
             document.getElementById('loginScreen').style.display='none';
             document.getElementById('mainApp').style.display='block';
             document.getElementById('userName').textContent=currentUser.fullName;
@@ -1506,6 +1740,7 @@
             updateDashboard();
             renderPatients();
             applyLogo();
+            applyTheme();
         }
 
         function logout() {
@@ -1519,6 +1754,7 @@
             }).then(r=>{
                 if(r.isConfirmed) {
                     sessionStorage.removeItem('sisterlab_user');
+                    currentUser=null;
                     location.reload();
                 }
             });
@@ -1533,19 +1769,14 @@
         }
 
         function showPage(page) {
-            // Close sidebar
             toggleSidebar();
-            
-            // Update menu active state
             document.querySelectorAll('.menu-item').forEach(m=>m.classList.remove('active'));
             
-            // Hide all pages
             document.getElementById('dashboardPage').classList.add('hidden');
             document.getElementById('dataPage').classList.add('hidden');
             document.getElementById('inputPage').classList.add('hidden');
             document.getElementById('settingsPage').classList.add('hidden');
             
-            // Show selected page
             if(page==='dashboard') {
                 document.getElementById('dashboardPage').classList.remove('hidden');
                 document.querySelectorAll('.menu-item')[0].classList.add('active');
@@ -1557,6 +1788,7 @@
             } else if(page==='input') {
                 document.getElementById('inputPage').classList.remove('hidden');
                 document.querySelectorAll('.menu-item')[2].classList.add('active');
+                if(!isEditMode)resetForm();
             } else if(page==='settings') {
                 document.getElementById('settingsPage').classList.remove('hidden');
                 document.querySelectorAll('.menu-item')[3].classList.add('active');
@@ -1564,34 +1796,76 @@
         }
 
         function showAddPatient() {
+            resetForm();
             showPage('input');
         }
 
         function showAddPatientFromData() {
+            resetForm();
             showPage('input');
         }
 
-        function toggleTheme() {
-            const html=document.documentElement;
-            const icon=document.getElementById('themeIcon');
-            if(html.getAttribute('data-theme')==='dark') {
-                html.removeAttribute('data-theme');
-                icon.className='fas fa-moon menu-icon';
-                localStorage.setItem('theme','light');
-            } else {
-                html.setAttribute('data-theme','dark');
-                icon.className='fas fa-sun menu-icon';
-                localStorage.setItem('theme','dark');
+        // THEME
+        function loadTheme() {
+            const savedTheme=localStorage.getItem('sisterlab_theme');
+            if(savedTheme) {
+                currentTheme=savedTheme;
+            }
+            
+            const savedDark=localStorage.getItem('sisterlab_dark');
+            if(savedDark==='true') {
+                document.documentElement.setAttribute('data-theme','dark');
+                updateDarkModeUI(true);
             }
         }
 
-        const savedTheme=localStorage.getItem('theme');
-        if(savedTheme==='dark') {
-            document.documentElement.setAttribute('data-theme','dark');
-            setTimeout(()=>{
-                const icon=document.getElementById('themeIcon');
-                if(icon)icon.className='fas fa-sun menu-icon';
-            },100);
+        function changeTheme(theme) {
+            currentTheme=theme;
+            localStorage.setItem('sisterlab_theme',theme);
+            applyTheme();
+            
+            document.querySelectorAll('.theme-preset').forEach(el=>el.classList.remove('active'));
+            document.querySelector(`.theme-${theme}`).classList.add('active');
+            
+            Swal.fire({
+                icon:'success',
+                title:'Tema Berhasil Diubah!',
+                timer:1000,
+                showConfirmButton:false
+            });
+        }
+
+        function applyTheme() {
+            const theme=themes[currentTheme];
+            document.documentElement.style.setProperty('--primary',theme.primary);
+            document.documentElement.style.setProperty('--primary-dark',theme.primaryDark);
+        }
+
+        function toggleDarkMode() {
+            const html=document.documentElement;
+            if(html.getAttribute('data-theme')==='dark') {
+                html.removeAttribute('data-theme');
+                localStorage.setItem('sisterlab_dark','false');
+                updateDarkModeUI(false);
+            } else {
+                html.setAttribute('data-theme','dark');
+                localStorage.setItem('sisterlab_dark','true');
+                updateDarkModeUI(true);
+            }
+        }
+
+        function updateDarkModeUI(isDark) {
+            const icon=document.getElementById('darkModeIcon');
+            const text=document.getElementById('darkModeText');
+            if(icon&&text) {
+                if(isDark) {
+                    icon.className='fas fa-sun';
+                    text.textContent='Mode Terang';
+                } else {
+                    icon.className='fas fa-moon';
+                    text.textContent='Mode Gelap';
+                }
+            }
         }
 
         // DATABASE
@@ -1609,29 +1883,34 @@
         // LOGO
         function loadLogo() {
             const saved=localStorage.getItem('sisterlab_logo');
-            if(saved) appLogo=saved;
+            if(saved) {
+                appLogo=saved;
+                console.log('Logo loaded from localStorage');
+            } else {
+                console.log('No logo found in localStorage');
+            }
         }
 
         function applyLogo() {
             if(!appLogo)return;
             
-            // Apply to login screen
+            const logoHtml=`<img src="${appLogo}" alt="Logo" style="width:100%;height:100%;object-fit:cover;">`;
+            
             const loginIcon=document.getElementById('loginLogoIcon');
             if(loginIcon) {
-                loginIcon.innerHTML=`<img src="${appLogo}" alt="Logo">`;
+                loginIcon.innerHTML=logoHtml;
+                loginIcon.style.background='transparent';
+                loginIcon.style.boxShadow='0 8px 20px rgba(0,0,0,0.1)';
             }
             
-            // Apply to sidebar
             const sidebarLogo=document.getElementById('sidebarLogoContainer');
             if(sidebarLogo) {
-                sidebarLogo.innerHTML=`<img src="${appLogo}" alt="Logo">`;
+                sidebarLogo.innerHTML=logoHtml;
+                sidebarLogo.style.background='transparent';
             }
             
-            // Apply to settings preview
             const preview=document.getElementById('logoPreview');
-            if(preview) {
-                preview.innerHTML=`<img src="${appLogo}" alt="Logo">`;
-            }
+            if(preview)preview.innerHTML=logoHtml;
         }
 
         function handleLogoUpload(e) {
@@ -1653,10 +1932,17 @@
                 localStorage.setItem('sisterlab_logo',appLogo);
                 applyLogo();
                 
+                // Update preview immediately
+                const preview=document.getElementById('logoPreview');
+                if(preview) {
+                    preview.innerHTML=`<img src="${appLogo}" alt="Logo" style="width:100%;height:100%;object-fit:cover;">`;
+                }
+                
                 Swal.fire({
                     icon:'success',
                     title:'Logo Berhasil Diupdate!',
-                    timer:1500,
+                    text:'Logo akan muncul di semua halaman termasuk halaman login',
+                    timer:2000,
                     showConfirmButton:false
                 });
             };
@@ -1676,10 +1962,10 @@
                     appLogo=null;
                     localStorage.removeItem('sisterlab_logo');
                     
-                    // Reset to default icon
-                    document.getElementById('loginLogoIcon').innerHTML='<i class="fas fa-flask"></i>';
-                    document.getElementById('sidebarLogoContainer').innerHTML='<i class="fas fa-flask"></i>';
-                    document.getElementById('logoPreview').innerHTML='<i class="fas fa-flask"></i>';
+                    const defaultIcon='<i class="fas fa-flask"></i>';
+                    document.getElementById('loginLogoIcon').innerHTML=defaultIcon;
+                    document.getElementById('sidebarLogoContainer').innerHTML=defaultIcon;
+                    document.getElementById('logoPreview').innerHTML=defaultIcon;
                     
                     Swal.fire({
                         icon:'success',
@@ -1704,7 +1990,6 @@
         }
 
         function updateCharts() {
-            // Lab Distribution
             const ctx1=document.getElementById('labChart');
             if(!ctx1)return;
             
@@ -1734,7 +2019,6 @@
                 }
             });
             
-            // Gender Distribution
             const ctx2=document.getElementById('genderChart');
             if(!ctx2)return;
             
@@ -1790,7 +2074,7 @@
                         </div>
                         <div class="item-content">
                             <div class="item-title">${p.nama}</div>
-                            <div class="item-desc">${p.kategori||'Tidak ada kategori'} • ${formatDate(p.tanggal)}</div>
+                            <div class="item-desc">${p.kategori||'Tidak ada kategori'} \u2022 ${formatDate(p.tanggal)}</div>
                         </div>
                         <div class="item-badge badge-success">
                             ${p.jenisKelamin==='Laki-laki'?'L':'P'}
@@ -1836,7 +2120,7 @@
                         </div>
                         <div class="item-content">
                             <div class="item-title">${p.nama}</div>
-                            <div class="item-desc">${p.kategori||'Tidak ada kategori'} • ${formatDate(p.tanggal)}</div>
+                            <div class="item-desc">${p.kategori||'Tidak ada kategori'} \u2022 ${formatDate(p.tanggal)}</div>
                         </div>
                         <div class="item-badge badge-success">
                             ${p.jenisKelamin==='Laki-laki'?'L':'P'}
@@ -1891,10 +2175,17 @@
                         <div style="font-size:0.813rem;color:var(--text-secondary);margin-bottom:4px;">Kategori Pemeriksaan</div>
                         <div style="font-weight:600;">${p.kategori}</div>
                     </div>
-                    ${p.hasil?`
+                    ${p.parameters&&Object.keys(p.parameters).length>0?`
                         <div style="margin-bottom:16px;">
                             <div style="font-size:0.813rem;color:var(--text-secondary);margin-bottom:8px;">Hasil Pemeriksaan</div>
-                            <div style="background:var(--bg);padding:12px;border-radius:8px;font-size:0.938rem;">${p.hasil}</div>
+                            <div style="background:var(--bg);padding:12px;border-radius:8px;font-size:0.938rem;">
+                                ${Object.entries(p.parameters).map(([key,value])=>`
+                                    <div style="display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid var(--border);">
+                                        <span>${formatParamName(key)}</span>
+                                        <strong>${value}</strong>
+                                    </div>
+                                `).join('')}
+                            </div>
                         </div>
                     `:''}
                     ${p.catatan?`
@@ -1910,12 +2201,16 @@
                         </div>
                     `:''}
                 </div>
-                <div class="btn-group mt-20">
-                    <button class="btn btn-primary" onclick="printPatient('${p.id}')">
+                <div class="btn-group">
+                    <button class="btn btn-primary" onclick="editPatient('${p.id}')">
+                        <i class="fas fa-edit"></i>
+                        Edit
+                    </button>
+                    <button class="btn btn-secondary" onclick="printPatient('${p.id}')">
                         <i class="fas fa-print"></i>
                         Print
                     </button>
-                    <button class="btn btn-secondary" onclick="deletePatient('${p.id}')">
+                    <button class="btn btn-danger" onclick="deletePatient('${p.id}')">
                         <i class="fas fa-trash"></i>
                         Hapus
                     </button>
@@ -1928,6 +2223,65 @@
 
         function hideDetail() {
             document.getElementById('detailModal').classList.remove('active');
+        }
+
+        function editPatient(id) {
+            const p=db.find(x=>x.id===id);
+            if(!p)return;
+            
+            editPatientId=id;
+            isEditMode=true;
+            
+            hideDetail();
+            
+            document.getElementById('inputPageTitle').textContent='Edit Data Pasien';
+            document.getElementById('photoUploadCard').style.display='none';
+            document.getElementById('cancelEditBtn').style.display='inline-flex';
+            document.getElementById('saveBtn').innerHTML='<i class="fas fa-save"></i> Update Data';
+            
+            document.getElementById('tanggal').value=p.tanggal||'';
+            document.getElementById('nama').value=p.nama||'';
+            document.getElementById('nik').value=p.nik||'';
+            document.getElementById('jenisKelamin').value=p.jenisKelamin||'';
+            document.getElementById('umur').value=p.umur||'';
+            document.getElementById('telepon').value=p.telepon||'';
+            document.getElementById('alamat').value=p.alamat||'';
+            document.getElementById('kategori').value=p.kategori||'';
+            document.getElementById('catatan').value=p.catatan||'';
+            document.getElementById('petugas').value=p.petugas||'';
+            
+            showKategoriFields();
+            
+            if(p.parameters) {
+                Object.entries(p.parameters).forEach(([key,value])=>{
+                    const input=document.getElementById(key);
+                    if(input)input.value=value;
+                    
+                    const checkbox=document.getElementById(`${key}_check`);
+                    if(checkbox)checkbox.checked=true;
+                });
+            }
+            
+            showPage('input');
+        }
+
+        function cancelEdit() {
+            resetForm();
+            showPage('data');
+        }
+
+        function resetForm() {
+            isEditMode=false;
+            editPatientId=null;
+            
+            document.getElementById('inputPageTitle').textContent='Tambah Pasien Baru';
+            document.getElementById('photoUploadCard').style.display='block';
+            document.getElementById('cancelEditBtn').style.display='none';
+            document.getElementById('saveBtn').innerHTML='<i class="fas fa-save"></i> Simpan Data';
+            
+            document.getElementById('patientForm').reset();
+            document.getElementById('tanggal').value=new Date().toISOString().split('T')[0];
+            document.getElementById('kategoriFields').innerHTML='';
         }
 
         function deletePatient(id) {
@@ -1964,72 +2318,62 @@
                 return;
             }
             
-            let fields='';
-            
-            if(kategori==='Hematologi') {
-                fields=`
-                    <div class="form-group">
-                        <label class="form-label">Hemoglobin (Hb)</label>
-                        <input type="text" class="form-input" id="hb" placeholder="g/dL">
-                        <div class="form-hint">Normal: P 12-16, L 13-18 g/dL</div>
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">Leukosit</label>
-                        <input type="text" class="form-input" id="leukosit" placeholder="/µL">
-                        <div class="form-hint">Normal: 4000-10000 /µL</div>
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">Eritrosit</label>
-                        <input type="text" class="form-input" id="eritrosit" placeholder="juta/µL">
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">Trombosit</label>
-                        <input type="text" class="form-input" id="trombosit" placeholder="/µL">
-                        <div class="form-hint">Normal: 150000-400000 /µL</div>
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">Hematokrit</label>
-                        <input type="text" class="form-input" id="hematokrit" placeholder="%">
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">LED</label>
-                        <input type="text" class="form-input" id="led" placeholder="mm/jam">
-                    </div>
-                `;
-            } else {
-                fields=`
-                    <div class="form-group">
-                        <label class="form-label">Hasil Pemeriksaan</label>
-                        <textarea class="form-textarea" id="hasilPemeriksaan" placeholder="Masukkan hasil pemeriksaan..."></textarea>
-                    </div>
-                `;
+            const params=labParameters[kategori];
+            if(!params) {
+                container.innerHTML='';
+                return;
             }
             
+            let fields='';
+            params.forEach(param=>{
+                fields+=`
+                    <div class="param-row">
+                        <div class="param-header">
+                            <input type="checkbox" class="param-checkbox" id="${param.id}_check" onchange="toggleParam('${param.id}')">
+                            <div class="param-name">${param.name}</div>
+                        </div>
+                        <div class="param-normal">Normal: ${param.normal}</div>
+                        <input type="text" class="param-input" id="${param.id}" placeholder="Masukkan nilai...">
+                    </div>
+                `;
+            });
+            
             container.innerHTML=fields;
+        }
+
+        function toggleParam(paramId) {
+            const checkbox=document.getElementById(`${paramId}_check`);
+            const input=document.getElementById(paramId);
+            
+            if(checkbox.checked) {
+                input.disabled=false;
+                input.style.opacity='1';
+            } else {
+                input.disabled=true;
+                input.style.opacity='0.5';
+                input.value='';
+            }
         }
 
         function savePatient(e) {
             e.preventDefault();
             
-            // Collect hasil
-            let hasil='';
-            if(document.getElementById('kategori').value==='Hematologi') {
-                const fields=['hb','leukosit','eritrosit','trombosit','hematokrit','led'];
-                const hasilArr=[];
-                fields.forEach(f=>{
-                    const el=document.getElementById(f);
-                    if(el&&el.value) {
-                        hasilArr.push(`${f.toUpperCase()}: ${el.value}`);
+            const kategori=document.getElementById('kategori').value;
+            const params={};
+            
+            if(kategori&&labParameters[kategori]) {
+                labParameters[kategori].forEach(param=>{
+                    const checkbox=document.getElementById(`${param.id}_check`);
+                    const input=document.getElementById(param.id);
+                    
+                    if(checkbox&&checkbox.checked&&input&&input.value.trim()) {
+                        params[param.id]=input.value.trim();
                     }
                 });
-                hasil=hasilArr.join(', ');
-            } else {
-                const hasilEl=document.getElementById('hasilPemeriksaan');
-                if(hasilEl)hasil=hasilEl.value;
             }
             
             const data={
-                id:Date.now().toString(),
+                id:isEditMode?editPatientId:Date.now().toString(),
                 tanggal:document.getElementById('tanggal').value,
                 nama:document.getElementById('nama').value,
                 nik:document.getElementById('nik').value,
@@ -2037,28 +2381,45 @@
                 umur:document.getElementById('umur').value,
                 telepon:document.getElementById('telepon').value,
                 alamat:document.getElementById('alamat').value,
-                kategori:document.getElementById('kategori').value,
-                hasil:hasil,
+                kategori:kategori,
+                parameters:Object.keys(params).length>0?params:null,
                 catatan:document.getElementById('catatan').value,
                 petugas:document.getElementById('petugas').value,
                 timestamp:new Date().toISOString()
             };
             
-            db.push(data);
-            saveDB();
+            if(isEditMode) {
+                const index=db.findIndex(p=>p.id===editPatientId);
+                if(index!==-1) {
+                    db[index]=data;
+                }
+                
+                Swal.fire({
+                    icon:'success',
+                    title:'Data Berhasil Diupdate!',
+                    text:`Data ${data.nama} telah diperbarui`,
+                    timer:1500,
+                    showConfirmButton:false
+                }).then(()=>{
+                    resetForm();
+                    showPage('data');
+                });
+            } else {
+                db.push(data);
+                
+                Swal.fire({
+                    icon:'success',
+                    title:'Data Berhasil Disimpan!',
+                    text:`Data ${data.nama} telah tersimpan`,
+                    timer:1500,
+                    showConfirmButton:false
+                }).then(()=>{
+                    resetForm();
+                    showPage('data');
+                });
+            }
             
-            Swal.fire({
-                icon:'success',
-                title:'Data Berhasil Disimpan!',
-                text:`Data ${data.nama} telah tersimpan`,
-                timer:1500,
-                showConfirmButton:false
-            }).then(()=>{
-                document.getElementById('patientForm').reset();
-                document.getElementById('tanggal').value=new Date().toISOString().split('T')[0];
-                document.getElementById('kategoriFields').innerHTML='';
-                showPage('data');
-            });
+            saveDB();
         }
 
         // OCR
@@ -2135,7 +2496,6 @@
             
             const container=document.getElementById('chatContainer');
             
-            // User message
             container.innerHTML+=`
                 <div class="chat-message user">
                     <div class="chat-avatar">
@@ -2148,7 +2508,6 @@
             input.value='';
             container.scrollTop=container.scrollHeight;
             
-            // Bot response
             setTimeout(()=>{
                 const response=getAIResponse(msg.toLowerCase());
                 container.innerHTML+=`
@@ -2165,14 +2524,127 @@
 
         function getAIResponse(msg) {
             if(msg.includes('hb')||msg.includes('hemoglobin')) {
-                return 'Hemoglobin normal:<br>• Perempuan: 12-16 g/dL<br>• Laki-laki: 13-18 g/dL';
+                return 'Hemoglobin normal:<br>\u2022 Perempuan: 12-16 g/dL<br>\u2022 Laki-laki: 13-18 g/dL';
             } else if(msg.includes('leukosit')) {
-                return 'Nilai normal leukosit: 4000-10000 /µL';
+                return 'Nilai normal leukosit: 4000-10000 /\u00b5L';
+            } else if(msg.includes('gula')||msg.includes('gds')) {
+                return 'Gula Darah Sewaktu normal: 70-140 mg/dL';
+            } else if(msg.includes('asamurat')||msg.includes('asam urat')) {
+                return 'Asam urat normal:<br>\u2022 Perempuan: 2.4-6.0 mg/dL<br>\u2022 Laki-laki: 3.4-7.0 mg/dL';
+            } else if(msg.includes('kolesterol')) {
+                return 'Kolesterol total normal: <200 mg/dL';
             } else if(msg.includes('cara')||msg.includes('input')) {
                 return 'Untuk input data pasien, klik menu "Input Lab" atau tombol + di pojok kanan bawah.';
             } else {
                 return 'Maaf, saya belum paham. Coba tanyakan tentang nilai normal lab atau cara menggunakan aplikasi.';
             }
+        }
+
+        // DOWNLOAD EXCEL RECAP
+        function downloadRecap() {
+            if(db.length===0) {
+                Swal.fire({
+                    icon:'warning',
+                    title:'Database Kosong',
+                    text:'Tidak ada data untuk di-download'
+                });
+                return;
+            }
+            
+            Swal.fire({
+                title:'Download Recap Bulanan?',
+                html:'<p>File akan berisi:</p><ul style="text-align:left;margin:10px 0 0 20px;"><li>Tabel lengkap data pasien</li><li>Statistik kategori pemeriksaan</li><li>Statistik gender pasien</li></ul>',
+                icon:'question',
+                showCancelButton:true,
+                confirmButtonText:'Download',
+                cancelButtonText:'Batal'
+            }).then(r=>{
+                if(r.isConfirmed) {
+                    generateExcelRecap();
+                }
+            });
+        }
+
+        function generateExcelRecap() {
+            const wb=XLSX.utils.book_new();
+            
+            // Sheet 1: Data Pasien
+            const patientData=db.map(p=>({
+                'Tanggal':p.tanggal,
+                'Nama':p.nama,
+                'NIK/BPJS':p.nik||'-',
+                'Jenis Kelamin':p.jenisKelamin,
+                'Umur':p.umur||'-',
+                'Telepon':p.telepon||'-',
+                'Alamat':p.alamat||'-',
+                'Kategori':p.kategori,
+                'Catatan':p.catatan||'-',
+                'Petugas':p.petugas||'-'
+            }));
+            
+            const ws1=XLSX.utils.json_to_sheet(patientData);
+            
+            const wscols=[
+                {wch:12},// Tanggal
+                {wch:25},// Nama
+                {wch:20},// NIK
+                {wch:12},// JK
+                {wch:8},// Umur
+                {wch:15},// Telepon
+                {wch:30},// Alamat
+                {wch:15},// Kategori
+                {wch:30},// Catatan
+                {wch:20} // Petugas
+            ];
+            ws1['!cols']=wscols;
+            
+            XLSX.utils.book_append_sheet(wb,ws1,'Data Pasien');
+            
+            // Sheet 2: Statistik Kategori
+            const categories={};
+            db.forEach(p=>{
+                const kat=p.kategori||'Lainnya';
+                categories[kat]=(categories[kat]||0)+1;
+            });
+            
+            const categoryData=Object.entries(categories).map(([name,count])=>({
+                'Kategori Pemeriksaan':name,
+                'Jumlah Pasien':count,
+                'Persentase':((count/db.length)*100).toFixed(2)+'%'
+            })).sort((a,b)=>b['Jumlah Pasien']-a['Jumlah Pasien']);
+            
+            const ws2=XLSX.utils.json_to_sheet(categoryData);
+            ws2['!cols']=[{wch:20},{wch:15},{wch:12}];
+            
+            XLSX.utils.book_append_sheet(wb,ws2,'Statistik Kategori');
+            
+            // Sheet 3: Statistik Gender
+            let l=0,p=0;
+            db.forEach(d=>{
+                if(d.jenisKelamin==='Laki-laki')l++;
+                else if(d.jenisKelamin==='Perempuan')p++;
+            });
+            
+            const genderData=[
+                {'Jenis Kelamin':'Laki-laki','Jumlah Pasien':l,'Persentase':((l/db.length)*100).toFixed(2)+'%'},
+                {'Jenis Kelamin':'Perempuan','Jumlah Pasien':p,'Persentase':((p/db.length)*100).toFixed(2)+'%'}
+            ];
+            
+            const ws3=XLSX.utils.json_to_sheet(genderData);
+            ws3['!cols']=[{wch:15},{wch:15},{wch:12}];
+            
+            XLSX.utils.book_append_sheet(wb,ws3,'Statistik Gender');
+            
+            const month=new Date().toLocaleDateString('id-ID',{month:'long',year:'numeric'});
+            XLSX.writeFile(wb,`SisterLab_Recap_${month}.xlsx`);
+            
+            Swal.fire({
+                icon:'success',
+                title:'Download Berhasil!',
+                text:`File Excel recap bulanan telah diunduh`,
+                timer:2000,
+                showConfirmButton:false
+            });
         }
 
         // BACKUP
@@ -2187,9 +2659,11 @@
             }
             
             const backup={
-                version:'1.0',
+                version:'2.0',
                 timestamp:new Date().toISOString(),
                 user:currentUser.username,
+                theme:currentTheme,
+                darkMode:document.documentElement.getAttribute('data-theme')==='dark',
                 data:db,
                 logo:appLogo
             };
@@ -2226,7 +2700,7 @@
                     
                     Swal.fire({
                         title:'Restore Database?',
-                        html:`<p>File berisi <strong>${backup.data.length}</strong> record</p><p style="color:#ef4444;">⚠️ Data saat ini akan diganti!</p>`,
+                        html:`<p>File berisi <strong>${backup.data.length}</strong> record</p><p style="color:#ef4444;">\u26a0\ufe0f Data saat ini akan diganti!</p>`,
                         icon:'warning',
                         showCancelButton:true,
                         confirmButtonText:'Ya, Restore',
@@ -2238,6 +2712,20 @@
                                 appLogo=backup.logo;
                                 localStorage.setItem('sisterlab_logo',appLogo);
                                 applyLogo();
+                            }
+                            if(backup.theme) {
+                                currentTheme=backup.theme;
+                                localStorage.setItem('sisterlab_theme',currentTheme);
+                                applyTheme();
+                            }
+                            if(backup.darkMode) {
+                                document.documentElement.setAttribute('data-theme','dark');
+                                localStorage.setItem('sisterlab_dark','true');
+                                updateDarkModeUI(true);
+                            } else {
+                                document.documentElement.removeAttribute('data-theme');
+                                localStorage.setItem('sisterlab_dark','false');
+                                updateDarkModeUI(false);
                             }
                             saveDB();
                             Swal.fire({
@@ -2262,7 +2750,7 @@
         function resetDatabase() {
             Swal.fire({
                 title:'Reset Database?',
-                html:'<p style="color:#ef4444;font-weight:bold;">⚠️ PERINGATAN!</p><p>Semua data akan dihapus permanen!</p>',
+                html:'<p style="color:#ef4444;font-weight:bold;">\u26a0\ufe0f PERINGATAN!</p><p>Semua data akan dihapus permanen!</p>',
                 icon:'warning',
                 input:'text',
                 inputPlaceholder:'Ketik "RESET" untuk konfirmasi',
@@ -2295,6 +2783,15 @@
             const printArea=document.getElementById('printArea');
             const logoHtml=appLogo?`<img src="${appLogo}" style="width:80px;height:80px;object-fit:cover;border-radius:12px;">`:'<div style="width:80px;height:80px;background:#06b6d4;border-radius:12px;"></div>';
             
+            let paramsHtml='';
+            if(p.parameters&&Object.keys(p.parameters).length>0) {
+                paramsHtml='<div style="margin-bottom:24px;"><strong>Hasil Pemeriksaan:</strong><table style="width:100%;margin-top:8px;border-collapse:collapse;"><thead><tr style="background:#f1f5f9;"><th style="padding:8px;text-align:left;border:1px solid #ddd;">Parameter</th><th style="padding:8px;text-align:left;border:1px solid #ddd;">Hasil</th></tr></thead><tbody>';
+                Object.entries(p.parameters).forEach(([key,value])=>{
+                    paramsHtml+=`<tr><td style="padding:8px;border:1px solid #ddd;">${formatParamName(key)}</td><td style="padding:8px;border:1px solid #ddd;">${value}</td></tr>`;
+                });
+                paramsHtml+='</tbody></table></div>';
+            }
+            
             printArea.innerHTML=`
                 <div style="padding:20mm;font-family:'Inter',Arial,sans-serif;">
                     <div style="display:flex;align-items:center;justify-content:space-between;border-bottom:3px double #000;padding-bottom:16px;margin-bottom:24px;">
@@ -2314,7 +2811,7 @@
                         <tr><td style="padding:6px;">Tanggal</td><td>: ${formatDate(p.tanggal)}</td></tr>
                         <tr><td style="padding:6px;">Kategori</td><td>: ${p.kategori}</td></tr>
                     </table>
-                    ${p.hasil?`<div style="margin-bottom:24px;"><strong>Hasil:</strong><br>${p.hasil}</div>`:''}
+                    ${paramsHtml}
                     ${p.catatan?`<div style="margin-bottom:24px;"><strong>Catatan:</strong><br>${p.catatan}</div>`:''}
                     <div style="margin-top:48px;text-align:right;">
                         <p>Meureubo, ${new Date().toLocaleDateString('id-ID',{day:'numeric',month:'long',year:'numeric'})}</p>
@@ -2336,7 +2833,60 @@
             return date.toLocaleDateString('id-ID',{day:'numeric',month:'short',year:'numeric'});
         }
 
-        console.log('🏥 SisterLab v1.0 - FIXED');
+        function formatParamName(id) {
+            const nameMap={
+                hb:'Hemoglobin (Hb)',
+                leukosit:'Leukosit',
+                eritrosit:'Eritrosit',
+                trombosit:'Trombosit',
+                hematokrit:'Hematokrit',
+                led:'LED',
+                mch:'MCH',
+                mchc:'MCHC',
+                mcv:'MCV',
+                gds:'Gula Darah Sewaktu',
+                gdp:'Gula Darah Puasa',
+                gd2pp:'Gula Darah 2 Jam PP',
+                asamurat:'Asam Urat',
+                kolesterol:'Kolesterol Total',
+                hdl:'HDL',
+                ldl:'LDL',
+                trigliserida:'Trigliserida',
+                sgot:'SGOT',
+                sgpt:'SGPT',
+                ureum:'Ureum',
+                kreatinin:'Kreatinin',
+                warna:'Warna',
+                berat_jenis:'Berat Jenis',
+                ph:'pH',
+                protein:'Protein',
+                glukosa:'Glukosa',
+                keton:'Keton',
+                bilirubin:'Bilirubin',
+                urobilinogen:'Urobilinogen',
+                nitrit:'Nitrit',
+                eritrosit_urin:'Eritrosit',
+                leukosit_urin:'Leukosit',
+                silinder:'Silinder',
+                bakteri:'Bakteri',
+                fungi:'Fungi',
+                parasit:'Parasit',
+                mikroskopis:'Pemeriksaan Mikroskopis',
+                widal_o:'Widal O',
+                widal_h:'Widal H',
+                hbsag:'HBsAg',
+                anti_hcv:'Anti-HCV',
+                hiv:'HIV',
+                rpr:'RPR/VDRL',
+                tpa:'TPHA',
+                chikungunya:'Chikungunya IgM/IgG',
+                dengue_igm:'Dengue IgM',
+                dengue_igg:'Dengue IgG'
+            };
+            return nameMap[id]||id;
+        }
+
+        console.log('🔥 SisterLab v2.0 - FIXED LOGIN BUG');
     </script>
 </body>
-</html>
+    </html>
