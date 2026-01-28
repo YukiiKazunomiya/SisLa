@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>SisterLab - UPTD Puskesmas Meureubo</title>
+    <title>SisterLab - Puskesmas Meureubo</title>
     
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
@@ -89,17 +89,12 @@
             color:white;
             box-shadow:0 8px 20px rgba(6,182,212,0.3);
             overflow:hidden;
-            position:relative;
         }
 
         .login-logo-icon img {
             width:100%;
             height:100%;
-            object-fit:contain;
-            position:absolute;
-            top:0;
-            left:0;
-            z-index:10;
+            object-fit:cover;
         }
 
         .login-logo h1 {
@@ -302,17 +297,12 @@
             font-size:2rem;
             color:white;
             overflow:hidden;
-            position:relative;
         }
 
         .sidebar-logo img {
             width:100%;
             height:100%;
-            object-fit:contain;
-            position:absolute;
-            top:0;
-            left:0;
-            z-index:10;
+            object-fit:cover;
         }
 
         .sidebar-info h2 {
@@ -602,6 +592,42 @@
             margin-top:6px;
         }
 
+        /* Multi-select checkboxes */
+        .checkbox-group {
+            display:flex;
+            flex-direction:column;
+            gap:10px;
+            margin-top:12px;
+        }
+
+        .checkbox-item {
+            display:flex;
+            align-items:center;
+            gap:12px;
+            padding:12px;
+            background:var(--bg);
+            border-radius:10px;
+            cursor:pointer;
+            transition:all 0.2s;
+        }
+
+        .checkbox-item:hover {
+            background:rgba(6,182,212,0.05);
+        }
+
+        .checkbox-item input[type="checkbox"] {
+            width:20px;
+            height:20px;
+            accent-color:var(--primary);
+            cursor:pointer;
+        }
+
+        .checkbox-item label {
+            flex:1;
+            font-weight:500;
+            cursor:pointer;
+        }
+
         /* BUTTONS */
         .btn {
             padding:14px 24px;
@@ -752,6 +778,11 @@
         .badge-danger {
             background:rgba(239,68,68,0.15);
             color:#ef4444;
+        }
+
+        .badge-info {
+            background:rgba(6,182,212,0.15);
+            color:var(--primary);
         }
 
         /* EMPTY STATE */
@@ -990,17 +1021,12 @@
             justify-content:center;
             overflow:hidden;
             border:2px dashed var(--border);
-            position:relative;
         }
 
         .logo-preview img {
             width:100%;
             height:100%;
-            object-fit:contain;
-            position:absolute;
-            top:0;
-            left:0;
-            z-index:10;
+            object-fit:cover;
         }
 
         .logo-preview i {
@@ -1092,6 +1118,128 @@
         .mb-20 {margin-bottom:20px;}
         .hidden {display:none;}
 
+        /* Category Slider/Carousel */
+        .category-slider {
+            display:flex;
+            overflow-x:auto;
+            gap:12px;
+            padding:8px 4px;
+            margin:0 -4px;
+            scroll-behavior:smooth;
+            -webkit-overflow-scrolling:touch;
+            scrollbar-width:none; /* Firefox */
+        }
+
+        .category-slider::-webkit-scrollbar {
+            display:none; /* Chrome, Safari, Edge */
+        }
+
+        .category-card {
+            flex:0 0 auto;
+            min-width:280px;
+            max-width:320px;
+            background:var(--card);
+            border-radius:16px;
+            padding:16px;
+            border:2px solid var(--border);
+            transition:all 0.3s;
+        }
+
+        .category-card:hover {
+            border-color:var(--primary);
+            box-shadow:0 4px 12px rgba(6,182,212,0.15);
+        }
+
+        .category-card-header {
+            display:flex;
+            align-items:center;
+            gap:8px;
+            margin-bottom:12px;
+            padding-bottom:10px;
+            border-bottom:2px solid var(--border);
+        }
+
+        .category-card-icon {
+            width:32px;
+            height:32px;
+            background:linear-gradient(135deg,var(--primary),var(--primary-dark));
+            border-radius:8px;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            color:white;
+            font-size:0.9rem;
+        }
+
+        .category-card-title {
+            font-size:0.95rem;
+            font-weight:700;
+            color:var(--text);
+        }
+
+        .param-item {
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+            padding:10px 12px;
+            background:var(--bg);
+            border-radius:8px;
+            margin-bottom:8px;
+        }
+
+        .param-item-name {
+            font-size:0.85rem;
+            font-weight:500;
+            color:var(--text);
+            flex:1;
+        }
+
+        .param-item-value {
+            font-size:0.9rem;
+            font-weight:700;
+            color:var(--primary);
+            text-align:right;
+        }
+
+        .param-item-normal {
+            font-size:0.7rem;
+            color:var(--text-secondary);
+            margin-top:2px;
+        }
+
+        .slider-controls {
+            display:flex;
+            justify-content:center;
+            gap:12px;
+            margin-top:12px;
+        }
+
+        .slider-btn {
+            width:40px;
+            height:40px;
+            border-radius:50%;
+            background:var(--primary);
+            color:white;
+            border:none;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            cursor:pointer;
+            font-size:1rem;
+            transition:all 0.2s;
+            box-shadow:0 2px 8px rgba(6,182,212,0.3);
+            -webkit-tap-highlight-color:transparent;
+        }
+
+        .slider-btn:hover {
+            transform:scale(1.1);
+            box-shadow:0 4px 12px rgba(6,182,212,0.4);
+        }
+
+        .slider-btn:active {
+            transform:scale(0.95);
+        }
+
         @media print {
             body * {visibility:hidden;}
             #printArea,#printArea * {visibility:visible;}
@@ -1109,7 +1257,7 @@
                     <i class="fas fa-flask"></i>
                 </div>
                 <h1>SisterLab</h1>
-                <p>Sistem Laboratorium Terpadu</p>
+                <p>Lab Management</p>
             </div>
             <form id="loginForm" onsubmit="return login(event)">
                 <div class="input-wrapper">
@@ -1134,7 +1282,7 @@
                     <i class="fas fa-bars"></i>
                 </button>
                 <div class="header-title">
-                    <h1>UPTD Puskesmas Meureubo</h1>
+                    <h1>Puskesmas Meureubo</h1>
                 </div>
             </div>
             <div class="header-right">
@@ -1153,7 +1301,7 @@
                 </div>
                 <div class="sidebar-info">
                     <h2>SisterLab</h2>
-                    <p>Sistem Laboratorium Terpadu</p>
+                    <p>Lab Management</p>
                 </div>
             </div>
 
@@ -1199,7 +1347,7 @@
             <div id="dashboardPage">
                 <div class="welcome-card">
                     <h2>Selamat Datang di SisterLab</h2>
-                    <p>Sistem Informasi Laboratorium UPTD Puskesmas Meureubo</p>
+                    <p>Sistem Informasi Laboratorium Puskesmas Meureubo</p>
                 </div>
 
                 <div class="stats-grid">
@@ -1354,19 +1502,14 @@
                             <div class="card-icon">
                                 <i class="fas fa-vial"></i>
                             </div>
-                            Kategori Pemeriksaan
+                            Kategori Pemeriksaan (Bisa pilih lebih dari satu)
                         </div>
 
                         <div class="form-group">
-                            <label class="form-label">Kategori Pemeriksaan</label>
-                            <select class="form-select" id="kategori" onchange="showKategoriFields()" required>
-                                <option value="">Pilih kategori</option>
-                                <option value="Hematologi">Hematologi</option>
-                                <option value="Kimia Darah">Kimia Darah</option>
-                                <option value="Urinalisis">Urinalisis</option>
-                                <option value="Imunoserologi">Imunoserologi</option>
-                                <option value="Mikrobiologi">Mikrobiologi</option>
-                            </select>
+                            <label class="form-label">Pilih Kategori Pemeriksaan:</label>
+                            <div class="checkbox-group" id="kategoriCheckboxes">
+                                <!-- Will be populated by JavaScript -->
+                            </div>
                         </div>
 
                         <div id="kategoriFields"></div>
@@ -1516,7 +1659,7 @@
                     <div class="card">
                         <div style="display:flex;justify-content:space-between;padding:12px 0;border-bottom:1px solid var(--border);">
                             <span style="color:var(--text-secondary);font-size:0.938rem;">Versi Aplikasi</span>
-                            <span style="font-weight:700;">2.0.0</span>
+                            <span style="font-weight:700;">2.1.0</span>
                         </div>
                         <div style="display:flex;justify-content:space-between;padding:12px 0;border-bottom:1px solid var(--border);">
                             <span style="color:var(--text-secondary);font-size:0.938rem;">Sistem</span>
@@ -1598,6 +1741,7 @@
         let currentTheme='cyan';
         let isEditMode=false;
         let editPatientId=null;
+        let selectedCategories = [];
 
         // THEME COLORS
         const themes={
@@ -1683,10 +1827,14 @@
             loadDB();
             loadLogo();
             loadTheme();
-            checkSession();
+            populateCategoryCheckboxes();
             
-            // Apply logo to login page immediately after loading
-            applyLogo();
+            // Apply logo immediately after loading
+            if(appLogo) {
+                applyLogo();
+            }
+            
+            checkSession();
         });
 
         // AUTH - FIXED VERSION
@@ -1739,7 +1887,12 @@
             document.getElementById('userInitial').textContent=currentUser.fullName.charAt(0).toUpperCase();
             updateDashboard();
             renderPatients();
-            applyLogo();
+            
+            // Apply logo to all elements including login screen
+            setTimeout(() => {
+                applyLogo();
+            }, 100);
+            
             applyTheme();
         }
 
@@ -1883,12 +2036,7 @@
         // LOGO
         function loadLogo() {
             const saved=localStorage.getItem('sisterlab_logo');
-            if(saved) {
-                appLogo=saved;
-                console.log('Logo loaded from localStorage');
-            } else {
-                console.log('No logo found in localStorage');
-            }
+            if(saved) appLogo=saved;
         }
 
         function applyLogo() {
@@ -1900,7 +2048,6 @@
             if(loginIcon) {
                 loginIcon.innerHTML=logoHtml;
                 loginIcon.style.background='transparent';
-                loginIcon.style.boxShadow='0 8px 20px rgba(0,0,0,0.1)';
             }
             
             const sidebarLogo=document.getElementById('sidebarLogoContainer');
@@ -1910,7 +2057,10 @@
             }
             
             const preview=document.getElementById('logoPreview');
-            if(preview)preview.innerHTML=logoHtml;
+            if(preview) {
+                preview.innerHTML=logoHtml;
+                preview.style.background='transparent';
+            }
         }
 
         function handleLogoUpload(e) {
@@ -1926,25 +2076,31 @@
                 return;
             }
             
+            Swal.fire({
+                title:'Memproses Logo...',
+                text:'Mohon tunggu sebentar...',
+                allowOutsideClick:false,
+                didOpen: () => {
+                    Swal.showLoading();
+                }
+            });
+            
             const reader=new FileReader();
             reader.onload=function(ev) {
                 appLogo=ev.target.result;
                 localStorage.setItem('sisterlab_logo',appLogo);
-                applyLogo();
                 
-                // Update preview immediately
-                const preview=document.getElementById('logoPreview');
-                if(preview) {
-                    preview.innerHTML=`<img src="${appLogo}" alt="Logo" style="width:100%;height:100%;object-fit:cover;">`;
-                }
-                
-                Swal.fire({
-                    icon:'success',
-                    title:'Logo Berhasil Diupdate!',
-                    text:'Logo akan muncul di semua halaman termasuk halaman login',
-                    timer:2000,
-                    showConfirmButton:false
-                });
+                setTimeout(() => {
+                    applyLogo();
+                    Swal.close();
+                    Swal.fire({
+                        icon:'success',
+                        title:'Logo Berhasil Diupdate!',
+                        text:'Logo telah diterapkan di semua halaman',
+                        timer:2000,
+                        showConfirmButton:false
+                    });
+                }, 500);
             };
             reader.readAsDataURL(file);
         }
@@ -1962,10 +2118,23 @@
                     appLogo=null;
                     localStorage.removeItem('sisterlab_logo');
                     
-                    const defaultIcon='<i class="fas fa-flask"></i>';
-                    document.getElementById('loginLogoIcon').innerHTML=defaultIcon;
-                    document.getElementById('sidebarLogoContainer').innerHTML=defaultIcon;
-                    document.getElementById('logoPreview').innerHTML=defaultIcon;
+                    const loginIcon=document.getElementById('loginLogoIcon');
+                    if(loginIcon) {
+                        loginIcon.innerHTML='<i class="fas fa-flask"></i>';
+                        loginIcon.style.background='linear-gradient(135deg,var(--primary),var(--primary-dark))';
+                    }
+                    
+                    const sidebarLogo=document.getElementById('sidebarLogoContainer');
+                    if(sidebarLogo) {
+                        sidebarLogo.innerHTML='<i class="fas fa-flask"></i>';
+                        sidebarLogo.style.background='rgba(255,255,255,0.2)';
+                    }
+                    
+                    const preview=document.getElementById('logoPreview');
+                    if(preview) {
+                        preview.innerHTML='<i class="fas fa-flask"></i>';
+                        preview.style.background='rgba(6,182,212,0.1)';
+                    }
                     
                     Swal.fire({
                         icon:'success',
@@ -1995,8 +2164,13 @@
             
             const categories={};
             db.forEach(p=>{
-                const kat=p.kategori||'Lainnya';
-                categories[kat]=(categories[kat]||0)+1;
+                if(p.kategori && Array.isArray(p.kategori)) {
+                    p.kategori.forEach(kat=>{
+                        categories[kat]=(categories[kat]||0)+1;
+                    });
+                } else if(p.kategori) {
+                    categories[p.kategori]=(categories[p.kategori]||0)+1;
+                }
             });
             
             if(chart1)chart1.destroy();
@@ -2067,6 +2241,10 @@
             
             let html='';
             db.slice().reverse().forEach(p=>{
+                const kategoriText = p.kategori && Array.isArray(p.kategori) 
+                    ? p.kategori.join(', ') 
+                    : (p.kategori || 'Tidak ada kategori');
+                
                 html+=`
                     <div class="list-item" onclick="showPatientDetail('${p.id}')">
                         <div class="item-icon">
@@ -2074,7 +2252,7 @@
                         </div>
                         <div class="item-content">
                             <div class="item-title">${p.nama}</div>
-                            <div class="item-desc">${p.kategori||'Tidak ada kategori'} \u2022 ${formatDate(p.tanggal)}</div>
+                            <div class="item-desc">${kategoriText} \u2022 ${formatDate(p.tanggal)}</div>
                         </div>
                         <div class="item-badge badge-success">
                             ${p.jenisKelamin==='Laki-laki'?'L':'P'}
@@ -2094,11 +2272,15 @@
                 return;
             }
             
-            const filtered=db.filter(p=>
-                p.nama.toLowerCase().includes(query)||
-                (p.nik&&p.nik.toLowerCase().includes(query))||
-                (p.kategori&&p.kategori.toLowerCase().includes(query))
-            );
+            const filtered=db.filter(p=>{
+                const kategoriText = p.kategori && Array.isArray(p.kategori) 
+                    ? p.kategori.join(', ').toLowerCase() 
+                    : (p.kategori || '').toLowerCase();
+                    
+                return p.nama.toLowerCase().includes(query) ||
+                (p.nik&&p.nik.toLowerCase().includes(query)) ||
+                kategoriText.includes(query);
+            });
             
             if(filtered.length===0) {
                 container.innerHTML=`
@@ -2113,6 +2295,10 @@
             
             let html='';
             filtered.slice().reverse().forEach(p=>{
+                const kategoriText = p.kategori && Array.isArray(p.kategori) 
+                    ? p.kategori.join(', ') 
+                    : (p.kategori || 'Tidak ada kategori');
+                
                 html+=`
                     <div class="list-item" onclick="showPatientDetail('${p.id}')">
                         <div class="item-icon">
@@ -2120,7 +2306,7 @@
                         </div>
                         <div class="item-content">
                             <div class="item-title">${p.nama}</div>
-                            <div class="item-desc">${p.kategori||'Tidak ada kategori'} \u2022 ${formatDate(p.tanggal)}</div>
+                            <div class="item-desc">${kategoriText} \u2022 ${formatDate(p.tanggal)}</div>
                         </div>
                         <div class="item-badge badge-success">
                             ${p.jenisKelamin==='Laki-laki'?'L':'P'}
@@ -2134,6 +2320,10 @@
         function showPatientDetail(id) {
             const p=db.find(x=>x.id===id);
             if(!p)return;
+            
+            const kategoriText = p.kategori && Array.isArray(p.kategori) 
+                ? p.kategori.join(', ') 
+                : (p.kategori || '-');
             
             let html=`
                 <div class="card">
@@ -2173,21 +2363,80 @@
                     `:''}
                     <div style="margin-bottom:16px;">
                         <div style="font-size:0.813rem;color:var(--text-secondary);margin-bottom:4px;">Kategori Pemeriksaan</div>
-                        <div style="font-weight:600;">${p.kategori}</div>
+                        <div style="font-weight:600;">${kategoriText}</div>
                     </div>
-                    ${p.parameters&&Object.keys(p.parameters).length>0?`
-                        <div style="margin-bottom:16px;">
-                            <div style="font-size:0.813rem;color:var(--text-secondary);margin-bottom:8px;">Hasil Pemeriksaan</div>
-                            <div style="background:var(--bg);padding:12px;border-radius:8px;font-size:0.938rem;">
-                                ${Object.entries(p.parameters).map(([key,value])=>`
-                                    <div style="display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid var(--border);">
-                                        <span>${formatParamName(key)}</span>
-                                        <strong>${value}</strong>
-                                    </div>
-                                `).join('')}
-                            </div>
+            `;
+            
+            // Display lab parameters by category - SLIDER/CAROUSEL STYLE
+            let hasLabResults = false;
+            
+            if(p.parameters && Object.keys(p.parameters).length > 0) {
+                html+=`
+                    <div style="margin-bottom:20px;">
+                        <div style="font-size:0.95rem;font-weight:700;color:var(--text);margin-bottom:12px;">
+                            <i class="fas fa-flask"></i> Hasil Pemeriksaan (Geser untuk melihat semua)
                         </div>
-                    `:''}
+                        <div class="category-slider" id="categorySlider_${p.id}">
+                `;
+                
+                Object.keys(labParameters).forEach(kategori => {
+                    const params = labParameters[kategori];
+                    const hasParams = params.some(param => p.parameters[param.id]);
+                    
+                    if(hasParams) {
+                        hasLabResults = true;
+                        html+=`
+                            <div class="category-card">
+                                <div class="category-card-header">
+                                    <div class="category-card-icon">
+                                        <i class="fas fa-vial"></i>
+                                    </div>
+                                    <div class="category-card-title">${kategori}</div>
+                                </div>
+                        `;
+                        
+                        params.forEach(param => {
+                            if(p.parameters[param.id]) {
+                                html+=`
+                                    <div class="param-item">
+                                        <div class="param-item-name">${param.name}</div>
+                                        <div class="param-item-value">${p.parameters[param.id]}</div>
+                                    </div>
+                                    <div class="param-item-normal" style="padding:0 12px 8px;">Normal: ${param.normal}</div>
+                                `;
+                            }
+                        });
+                        
+                        html+=`
+                            </div>
+                        `;
+                    }
+                });
+                
+                html+=`
+                        </div>
+                        <div class="slider-controls">
+                            <button class="slider-btn" onclick="slideLeft('categorySlider_${p.id}')">
+                                <i class="fas fa-chevron-left"></i>
+                            </button>
+                            <button class="slider-btn" onclick="slideRight('categorySlider_${p.id}')">
+                                <i class="fas fa-chevron-right"></i>
+                            </button>
+                        </div>
+                    </div>
+                `;
+            }
+            
+            if(!hasLabResults) {
+                html+=`
+                    <div style="text-align:center;padding:20px;background:var(--bg);border-radius:8px;color:var(--text-secondary);">
+                        <i class="fas fa-flask" style="font-size:2rem;margin-bottom:8px;"></i>
+                        <p>Belum ada hasil pemeriksaan</p>
+                    </div>
+                `;
+            }
+            
+            html+=`
                     ${p.catatan?`
                         <div style="margin-bottom:16px;">
                             <div style="font-size:0.813rem;color:var(--text-secondary);margin-bottom:8px;">Catatan</div>
@@ -2221,6 +2470,27 @@
             document.getElementById('detailModal').classList.add('active');
         }
 
+        // Slider functions - FIXED VERSION with improved event handling
+        function slideLeft(sliderId) {
+            const slider=document.getElementById(sliderId);
+            if(slider) {
+                slider.scrollBy({left:-320,behavior:'smooth'});
+                console.log('Sliding left:', sliderId);
+            } else {
+                console.log('Slider not found:', sliderId);
+            }
+        }
+
+        function slideRight(sliderId) {
+            const slider=document.getElementById(sliderId);
+            if(slider) {
+                slider.scrollBy({left:320,behavior:'smooth'});
+                console.log('Sliding right:', sliderId);
+            } else {
+                console.log('Slider not found:', sliderId);
+            }
+        }
+
         function hideDetail() {
             document.getElementById('detailModal').classList.remove('active');
         }
@@ -2246,16 +2516,35 @@
             document.getElementById('umur').value=p.umur||'';
             document.getElementById('telepon').value=p.telepon||'';
             document.getElementById('alamat').value=p.alamat||'';
-            document.getElementById('kategori').value=p.kategori||'';
             document.getElementById('catatan').value=p.catatan||'';
             document.getElementById('petugas').value=p.petugas||'';
             
+            // Set selected categories - FIXED to handle both array and single value
+            if(p.kategori) {
+                if(Array.isArray(p.kategori)) {
+                    selectedCategories = [...p.kategori];
+                } else {
+                    selectedCategories = [p.kategori];
+                }
+            } else {
+                selectedCategories = [];
+            }
+            
+            // Update category checkboxes
+            updateCategoryCheckboxes();
+            
+            // Show parameter fields for selected categories
             showKategoriFields();
             
+            // Fill parameter values - FIXED to ensure checkboxes are checked
             if(p.parameters) {
                 Object.entries(p.parameters).forEach(([key,value])=>{
                     const input=document.getElementById(key);
-                    if(input)input.value=value;
+                    if(input) {
+                        input.value=value;
+                        input.disabled=false;
+                        input.style.opacity='1';
+                    }
                     
                     const checkbox=document.getElementById(`${key}_check`);
                     if(checkbox)checkbox.checked=true;
@@ -2273,6 +2562,7 @@
         function resetForm() {
             isEditMode=false;
             editPatientId=null;
+            selectedCategories=[];
             
             document.getElementById('inputPageTitle').textContent='Tambah Pasien Baru';
             document.getElementById('photoUploadCard').style.display='block';
@@ -2282,6 +2572,9 @@
             document.getElementById('patientForm').reset();
             document.getElementById('tanggal').value=new Date().toISOString().split('T')[0];
             document.getElementById('kategoriFields').innerHTML='';
+            
+            // Reset category checkboxes
+            updateCategoryCheckboxes();
         }
 
         function deletePatient(id) {
@@ -2309,33 +2602,80 @@
         }
 
         // FORM
-        function showKategoriFields() {
-            const kategori=document.getElementById('kategori').value;
-            const container=document.getElementById('kategoriFields');
+        function populateCategoryCheckboxes() {
+            const container=document.getElementById('kategoriCheckboxes');
+            let html='';
             
-            if(!kategori) {
-                container.innerHTML='';
-                return;
+            Object.keys(labParameters).forEach(kategori => {
+                html+=`
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="cat_${kategori}" value="${kategori}" onchange="handleCategoryChange('${kategori}')">
+                        <label for="cat_${kategori}">${kategori}</label>
+                    </div>
+                `;
+            });
+            
+            container.innerHTML=html;
+        }
+
+        function updateCategoryCheckboxes() {
+            Object.keys(labParameters).forEach(kategori => {
+                const checkbox=document.getElementById(`cat_${kategori}`);
+                if(checkbox) {
+                    checkbox.checked=selectedCategories.includes(kategori);
+                }
+            });
+        }
+
+        function handleCategoryChange(kategori) {
+            const checkbox=document.getElementById(`cat_${kategori}`);
+            
+            if(checkbox.checked) {
+                if(!selectedCategories.includes(kategori)) {
+                    selectedCategories.push(kategori);
+                }
+            } else {
+                selectedCategories=selectedCategories.filter(k=>k!==kategori);
             }
             
-            const params=labParameters[kategori];
-            if(!params) {
+            showKategoriFields();
+        }
+
+        function showKategoriFields() {
+            const container=document.getElementById('kategoriFields');
+            
+            if(selectedCategories.length===0) {
                 container.innerHTML='';
                 return;
             }
             
             let fields='';
-            params.forEach(param=>{
+            
+            selectedCategories.forEach(kategori => {
+                const params=labParameters[kategori];
+                if(!params) return;
+                
                 fields+=`
-                    <div class="param-row">
-                        <div class="param-header">
-                            <input type="checkbox" class="param-checkbox" id="${param.id}_check" onchange="toggleParam('${param.id}')">
-                            <div class="param-name">${param.name}</div>
-                        </div>
-                        <div class="param-normal">Normal: ${param.normal}</div>
-                        <input type="text" class="param-input" id="${param.id}" placeholder="Masukkan nilai...">
-                    </div>
+                    <div style="margin-top:24px;">
+                        <h4 style="font-size:1rem;font-weight:700;color:var(--primary);margin-bottom:12px;">
+                            <i class="fas fa-vial"></i> ${kategori}
+                        </h4>
                 `;
+                
+                params.forEach(param=>{
+                    fields+=`
+                        <div class="param-row">
+                            <div class="param-header">
+                                <input type="checkbox" class="param-checkbox" id="${param.id}_check" onchange="toggleParam('${param.id}')">
+                                <div class="param-name">${param.name}</div>
+                            </div>
+                            <div class="param-normal">Normal: ${param.normal}</div>
+                            <input type="text" class="param-input" id="${param.id}" placeholder="Masukkan nilai...">
+                        </div>
+                    `;
+                });
+                
+                fields+=`</div>`;
             });
             
             container.innerHTML=fields;
@@ -2358,20 +2698,34 @@
         function savePatient(e) {
             e.preventDefault();
             
-            const kategori=document.getElementById('kategori').value;
-            const params={};
-            
-            if(kategori&&labParameters[kategori]) {
-                labParameters[kategori].forEach(param=>{
-                    const checkbox=document.getElementById(`${param.id}_check`);
-                    const input=document.getElementById(param.id);
-                    
-                    if(checkbox&&checkbox.checked&&input&&input.value.trim()) {
-                        params[param.id]=input.value.trim();
-                    }
+            // VALIDATION: At least one category must be selected
+            if(selectedCategories.length === 0) {
+                Swal.fire({
+                    icon:'warning',
+                    title:'Pilih Kategori!',
+                    text:'Silakan pilih minimal satu kategori pemeriksaan.'
                 });
+                return false;
             }
             
+            const params={};
+            let hasCheckedParams = false;
+            
+            selectedCategories.forEach(kategori => {
+                if(labParameters[kategori]) {
+                    labParameters[kategori].forEach(param=>{
+                        const checkbox=document.getElementById(`${param.id}_check`);
+                        const input=document.getElementById(param.id);
+                        
+                        if(checkbox&&checkbox.checked&&input&&input.value.trim()) {
+                            params[param.id]=input.value.trim();
+                            hasCheckedParams = true;
+                        }
+                    });
+                }
+            });
+            
+            // Save data even if no parameters are checked (categories are saved)
             const data={
                 id:isEditMode?editPatientId:Date.now().toString(),
                 tanggal:document.getElementById('tanggal').value,
@@ -2381,7 +2735,7 @@
                 umur:document.getElementById('umur').value,
                 telepon:document.getElementById('telepon').value,
                 alamat:document.getElementById('alamat').value,
-                kategori:kategori,
+                kategori:selectedCategories.length>0?[...selectedCategories]:null,
                 parameters:Object.keys(params).length>0?params:null,
                 catatan:document.getElementById('catatan').value,
                 petugas:document.getElementById('petugas').value,
@@ -2420,6 +2774,7 @@
             }
             
             saveDB();
+            return false;
         }
 
         // OCR
@@ -2534,7 +2889,7 @@
             } else if(msg.includes('kolesterol')) {
                 return 'Kolesterol total normal: <200 mg/dL';
             } else if(msg.includes('cara')||msg.includes('input')) {
-                return 'Untuk input data pasien, klik menu "Input Lab" atau tombol + di pojok kanan bawah.';
+                return 'Untuk input data pasien, klik menu "Input Lab" atau tombol + di pojok kanan bawah. Sekarang Anda bisa memilih lebih dari satu kategori pemeriksaan.';
             } else {
                 return 'Maaf, saya belum paham. Coba tanyakan tentang nilai normal lab atau cara menggunakan aplikasi.';
             }
@@ -2553,7 +2908,7 @@
             
             Swal.fire({
                 title:'Download Recap Bulanan?',
-                html:'<p>File akan berisi:</p><ul style="text-align:left;margin:10px 0 0 20px;"><li>Tabel lengkap data pasien</li><li>Hasil pemeriksaan lab lengkap</li><li>Statistik kategori pemeriksaan</li><li>Statistik gender pasien</li></ul>',
+                html:'<p>File akan berisi:</p><ul style="text-align:left;margin:10px 0 0 20px;"><li>Tabel lengkap data pasien</li><li>Statistik kategori pemeriksaan</li><li>Statistik gender pasien</li></ul>',
                 icon:'question',
                 showCancelButton:true,
                 confirmButtonText:'Download',
@@ -2568,98 +2923,19 @@
         function generateExcelRecap() {
             const wb=XLSX.utils.book_new();
             
-            // Sheet 1: Data Pasien Lengkap dengan Hasil Lab
-            const patientData=db.map(p=>{
-                const data={
-                    'Tanggal':p.tanggal,
-                    'Nama':p.nama,
-                    'NIK/BPJS':p.nik||'-',
-                    'Jenis Kelamin':p.jenisKelamin,
-                    'Umur':p.umur||'-',
-                    'Telepon':p.telepon||'-',
-                    'Alamat':p.alamat||'-',
-                    'Kategori':p.kategori,
-                    'Catatan':p.catatan||'-',
-                    'Petugas':p.petugas||'-'
-                };
-                
-                // Tambahkan hasil pemeriksaan lab berdasarkan kategori
-                if(p.parameters&&Object.keys(p.parameters).length>0) {
-                    // Hematologi
-                    if(p.kategori==='Hematologi') {
-                        data['Hemoglobin (Hb) g/dL'] = p.parameters.hb || '-';
-                        data['Leukosit /µL'] = p.parameters.leukosit || '-';
-                        data['Eritrosit juta/µL'] = p.parameters.eritrosit || '-';
-                        data['Trombosit /µL'] = p.parameters.trombosit || '-';
-                        data['Hematokrit %'] = p.parameters.hematokrit || '-';
-                        data['LED mm/jam'] = p.parameters.led || '-';
-                        data['MCH pg'] = p.parameters.mch || '-';
-                        data['MCHC g/dL'] = p.parameters.mchc || '-';
-                        data['MCV fL'] = p.parameters.mcv || '-';
-                    }
-                    // Kimia Darah
-                    else if(p.kategori==='Kimia Darah') {
-                        data['Gula Darah Sewaktu mg/dL'] = p.parameters.gds || '-';
-                        data['Gula Darah Puasa mg/dL'] = p.parameters.gdp || '-';
-                        data['Gula Darah 2 Jam PP mg/dL'] = p.parameters.gd2pp || '-';
-                        data['Asam Urat mg/dL'] = p.parameters.asamurat || '-';
-                        data['Kolesterol Total mg/dL'] = p.parameters.kolesterol || '-';
-                        data['HDL mg/dL'] = p.parameters.hdl || '-';
-                        data['LDL mg/dL'] = p.parameters.ldl || '-';
-                        data['Trigliserida mg/dL'] = p.parameters.trigliserida || '-';
-                        data['SGOT U/L'] = p.parameters.sgot || '-';
-                        data['SGPT U/L'] = p.parameters.sgpt || '-';
-                        data['Ureum mg/dL'] = p.parameters.ureum || '-';
-                        data['Kreatinin mg/dL'] = p.parameters.kreatinin || '-';
-                    }
-                    // Urinalisis
-                    else if(p.kategori==='Urinalisis') {
-                        data['Warna'] = p.parameters.warna || '-';
-                        data['Berat Jenis'] = p.parameters.berat_jenis || '-';
-                        data['pH'] = p.parameters.ph || '-';
-                        data['Protein'] = p.parameters.protein || '-';
-                        data['Glukosa'] = p.parameters.glukosa || '-';
-                        data['Keton'] = p.parameters.keton || '-';
-                        data['Bilirubin'] = p.parameters.bilirubin || '-';
-                        data['Urobilinogen'] = p.parameters.urobilinogen || '-';
-                        data['Nitrit'] = p.parameters.nitrit || '-';
-                        data['Eritrosit'] = p.parameters.eritrosit_urin || '-';
-                        data['Leukosit'] = p.parameters.leukosit_urin || '-';
-                        data['Silinder'] = p.parameters.silinder || '-';
-                        data['Bakteri'] = p.parameters.bakteri || '-';
-                        data['Fungi'] = p.parameters.fungi || '-';
-                        data['Parasit'] = p.parameters.parasit || '-';
-                    }
-                    // Imunoserologi
-                    else if(p.kategori==='Imunoserologi') {
-                        data['Widal O'] = p.parameters.widal_o || '-';
-                        data['Widal H'] = p.parameters.widal_h || '-';
-                        data['HBsAg'] = p.parameters.hbsag || '-';
-                        data['Anti-HCV'] = p.parameters.anti_hcv || '-';
-                        data['HIV'] = p.parameters.hiv || '-';
-                        data['RPR/VDRL'] = p.parameters.rpr || '-';
-                        data['TPHA'] = p.parameters.tpa || '-';
-                        data['Chikungunya IgM/IgG'] = p.parameters.chikungunya || '-';
-                        data['Dengue IgM'] = p.parameters.dengue_igm || '-';
-                        data['Dengue IgG'] = p.parameters.dengue_igg || '-';
-                    }
-                    // Mikrobiologi
-                    else if(p.kategori==='Mikrobiologi') {
-                        data['Hematologi'] = p.parameters.hematologi_kultur || '-';
-                        data['Leukosit'] = p.parameters.leukosit_kultur || '-';
-                        data['Trombosit'] = p.parameters.trombosit_kultur || '-';
-                        data['Kultur'] = p.parameters.kultur || '-';
-                        data['Biakan'] = p.parameters.biakan || '-';
-                        data['Sensitivitas'] = p.parameters.sensitivitas || '-';
-                        data['Pewarnaan Gram'] = p.parameters.gram || '-';
-                        data['Fungi'] = p.parameters.fungi || '-';
-                        data['Parasit'] = p.parameters.parasit || '-';
-                        data['Pemeriksaan Mikroskopis'] = p.parameters.mikroskopis || '-';
-                    }
-                }
-                
-                return data;
-            });
+            // Sheet 1: Data Pasien
+            const patientData=db.map(p=>({
+                'Tanggal':p.tanggal,
+                'Nama':p.nama,
+                'NIK/BPJS':p.nik||'-',
+                'Jenis Kelamin':p.jenisKelamin,
+                'Umur':p.umur||'-',
+                'Telepon':p.telepon||'-',
+                'Alamat':p.alamat||'-',
+                'Kategori':p.kategori && Array.isArray(p.kategori) ? p.kategori.join(', ') : (p.kategori||'-'),
+                'Catatan':p.catatan||'-',
+                'Petugas':p.petugas||'-'
+            }));
             
             const ws1=XLSX.utils.json_to_sheet(patientData);
             
@@ -2671,19 +2947,24 @@
                 {wch:8},// Umur
                 {wch:15},// Telepon
                 {wch:30},// Alamat
-                {wch:15},// Kategori
+                {wch:30},// Kategori (multiple)
                 {wch:30},// Catatan
                 {wch:20} // Petugas
             ];
             ws1['!cols']=wscols;
             
-            XLSX.utils.book_append_sheet(wb,ws1,'Data Pasien & Hasil Lab');
+            XLSX.utils.book_append_sheet(wb,ws1,'Data Pasien');
             
             // Sheet 2: Statistik Kategori
             const categories={};
             db.forEach(p=>{
-                const kat=p.kategori||'Lainnya';
-                categories[kat]=(categories[kat]||0)+1;
+                if(p.kategori && Array.isArray(p.kategori)) {
+                    p.kategori.forEach(kat=>{
+                        categories[kat]=(categories[kat]||0)+1;
+                    });
+                } else if(p.kategori) {
+                    categories[p.kategori]=(categories[p.kategori]||0)+1;
+                }
             });
             
             const categoryData=Object.entries(categories).map(([name,count])=>({
@@ -2705,8 +2986,8 @@
             });
             
             const genderData=[
-                {'Jenis Kelamin':'Laki-laki','Jumlah Pasien':l,'Persentase':((l/db.length)*100).toFixed(2)+'%'},
-                {'Jenis Kelamin':'Perempuan','Jumlah Pasien':p,'Persentase':((p/db.length)*100).toFixed(2)+'%'}
+                {'Jenis Kelamin':'Laki-laki','Jumlah Pasien':l,'Persentase':db.length>0?((l/db.length)*100).toFixed(2)+'%':'0%'},
+                {'Jenis Kelamin':'Perempuan','Jumlah Pasien':p,'Persentase':db.length>0?((p/db.length)*100).toFixed(2)+'%':'0%'}
             ];
             
             const ws3=XLSX.utils.json_to_sheet(genderData);
@@ -2714,46 +2995,32 @@
             
             XLSX.utils.book_append_sheet(wb,ws3,'Statistik Gender');
             
-            // Sheet 4: Ringkasan Hasil per Kategori
-            const summaryData=db.filter(p=>p.parameters&&Object.keys(p.parameters).length>0).map(p=>{
-                const summary={
-                    'Nama Pasien':p.nama,
-                    'Kategori':p.kategori,
-                    'Tanggal':p.tanggal
-                };
-                
-                if(p.kategori==='Hematologi') {
-                    summary['Hb (g/dL)'] = p.parameters.hb || '-';
-                    summary['Leukosit (/µL)'] = p.parameters.leukosit || '-';
-                    summary['Trombosit (/µL)'] = p.parameters.trombosit || '-';
-                    summary['Hematokrit (%)'] = p.parameters.hematokrit || '-';
-                } else if(p.kategori==='Kimia Darah') {
-                    summary['GDS (mg/dL)'] = p.parameters.gds || '-';
-                    summary['GDP (mg/dL)'] = p.parameters.gdp || '-';
-                    summary['Asam Urat (mg/dL)'] = p.parameters.asamurat || '-';
-                    summary['Kolesterol (mg/dL)'] = p.parameters.kolesterol || '-';
-                } else if(p.kategori==='Urinalisis') {
-                    summary['Warna'] = p.parameters.warna || '-';
-                    summary['pH'] = p.parameters.ph || '-';
-                    summary['Protein'] = p.parameters.protein || '-';
-                    summary['Glukosa'] = p.parameters.glukosa || '-';
-                } else if(p.kategori==='Imunoserologi') {
-                    summary['Widal O'] = p.parameters.widal_o || '-';
-                    summary['HBsAg'] = p.parameters.hbsag || '-';
-                    summary['HIV'] = p.parameters.hiv || '-';
-                } else if(p.kategori==='Mikrobiologi') {
-                    summary['Kultur'] = p.parameters.kultur || '-';
-                    summary['Biakan'] = p.parameters.biakan || '-';
-                    summary['Sensitivitas'] = p.parameters.sensitivitas || '-';
+            // Sheet 4: Hasil Pemeriksaan (by category)
+            const resultsData=[];
+            db.forEach(p=>{
+                if(p.parameters && Object.keys(p.parameters).length > 0) {
+                    Object.keys(labParameters).forEach(kategori => {
+                        const params=labParameters[kategori];
+                        params.forEach(param => {
+                            if(p.parameters[param.id]) {
+                                resultsData.push({
+                                    'Nama Pasien':p.nama,
+                                    'Kategori':kategori,
+                                    'Parameter':param.name,
+                                    'Hasil':p.parameters[param.id],
+                                    'Normal':param.normal
+                                });
+                            }
+                        });
+                    });
                 }
-                
-                return summary;
             });
             
-            const ws4=XLSX.utils.json_to_sheet(summaryData);
-            ws4['!cols']=[{wch:25},{wch:15},{wch:12},{wch:15},{wch:15},{wch:15},{wch:15},{wch:15}];
-            
-            XLSX.utils.book_append_sheet(wb,ws4,'Ringkasan Hasil Lab');
+            if(resultsData.length > 0) {
+                const ws4=XLSX.utils.json_to_sheet(resultsData);
+                ws4['!cols']=[{wch:25},{wch:15},{wch:25},{wch:15},{wch:20}];
+                XLSX.utils.book_append_sheet(wb,ws4,'Hasil Pemeriksaan');
+            }
             
             const month=new Date().toLocaleDateString('id-ID',{month:'long',year:'numeric'});
             XLSX.writeFile(wb,`SisterLab_Recap_${month}.xlsx`);
@@ -2761,8 +3028,8 @@
             Swal.fire({
                 icon:'success',
                 title:'Download Berhasil!',
-                html:`<p>File Excel recap bulanan telah diunduh</p><p style="font-size:0.875rem;color:#64748b;margin-top:8px;">Berisi: Data Pasien, Hasil Lab Lengkap, Statistik Kategori & Gender, Ringkasan Hasil</p>`,
-                timer:3000,
+                text:`File Excel recap bulanan telah diunduh`,
+                timer:2000,
                 showConfirmButton:false
             });
         }
@@ -2779,7 +3046,7 @@
             }
             
             const backup={
-                version:'2.0',
+                version:'2.1',
                 timestamp:new Date().toISOString(),
                 user:currentUser.username,
                 theme:currentTheme,
@@ -2903,12 +3170,23 @@
             const printArea=document.getElementById('printArea');
             const logoHtml=appLogo?`<img src="${appLogo}" style="width:80px;height:80px;object-fit:cover;border-radius:12px;">`:'<div style="width:80px;height:80px;background:#06b6d4;border-radius:12px;"></div>';
             
+            const kategoriText = p.kategori && Array.isArray(p.kategori) 
+                ? p.kategori.join(', ') 
+                : (p.kategori || '-');
+            
             let paramsHtml='';
-            if(p.parameters&&Object.keys(p.parameters).length>0) {
-                paramsHtml='<div style="margin-bottom:24px;"><strong>Hasil Pemeriksaan:</strong><table style="width:100%;margin-top:8px;border-collapse:collapse;"><thead><tr style="background:#f1f5f9;"><th style="padding:8px;text-align:left;border:1px solid #ddd;">Parameter</th><th style="padding:8px;text-align:left;border:1px solid #ddd;">Hasil</th></tr></thead><tbody>';
-                Object.entries(p.parameters).forEach(([key,value])=>{
-                    paramsHtml+=`<tr><td style="padding:8px;border:1px solid #ddd;">${formatParamName(key)}</td><td style="padding:8px;border:1px solid #ddd;">${value}</td></tr>`;
+            if(p.parameters && Object.keys(p.parameters).length>0) {
+                paramsHtml='<div style="margin-bottom:24px;"><strong>Hasil Pemeriksaan:</strong><table style="width:100%;margin-top:8px;border-collapse:collapse;"><thead><tr style="background:#f1f5f9;"><th style="padding:8px;text-align:left;border:1px solid #ddd;">Parameter</th><th style="padding:8px;text-align:left;border:1px solid #ddd;">Hasil</th><th style="padding:8px;text-align:left;border:1px solid #ddd;">Normal</th></tr></thead><tbody>';
+                
+                Object.keys(labParameters).forEach(kategori => {
+                    const params=labParameters[kategori];
+                    params.forEach(param => {
+                        if(p.parameters[param.id]) {
+                            paramsHtml+=`<tr><td style="padding:8px;border:1px solid #ddd;">${param.name}</td><td style="padding:8px;border:1px solid #ddd;">${p.parameters[param.id]}</td><td style="padding:8px;border:1px solid #ddd;">${param.normal}</td></tr>`;
+                        }
+                    });
                 });
+                
                 paramsHtml+='</tbody></table></div>';
             }
             
@@ -2929,7 +3207,7 @@
                         <tr><td style="padding:6px;">Jenis Kelamin</td><td>: ${p.jenisKelamin}</td></tr>
                         <tr><td style="padding:6px;">Umur</td><td>: ${p.umur||'-'} tahun</td></tr>
                         <tr><td style="padding:6px;">Tanggal</td><td>: ${formatDate(p.tanggal)}</td></tr>
-                        <tr><td style="padding:6px;">Kategori</td><td>: ${p.kategori}</td></tr>
+                        <tr><td style="padding:6px;">Kategori</td><td>: ${kategoriText}</td></tr>
                     </table>
                     ${paramsHtml}
                     ${p.catatan?`<div style="margin-bottom:24px;"><strong>Catatan:</strong><br>${p.catatan}</div>`:''}
@@ -2953,60 +3231,7 @@
             return date.toLocaleDateString('id-ID',{day:'numeric',month:'short',year:'numeric'});
         }
 
-        function formatParamName(id) {
-            const nameMap={
-                hb:'Hemoglobin (Hb)',
-                leukosit:'Leukosit',
-                eritrosit:'Eritrosit',
-                trombosit:'Trombosit',
-                hematokrit:'Hematokrit',
-                led:'LED',
-                mch:'MCH',
-                mchc:'MCHC',
-                mcv:'MCV',
-                gds:'Gula Darah Sewaktu',
-                gdp:'Gula Darah Puasa',
-                gd2pp:'Gula Darah 2 Jam PP',
-                asamurat:'Asam Urat',
-                kolesterol:'Kolesterol Total',
-                hdl:'HDL',
-                ldl:'LDL',
-                trigliserida:'Trigliserida',
-                sgot:'SGOT',
-                sgpt:'SGPT',
-                ureum:'Ureum',
-                kreatinin:'Kreatinin',
-                warna:'Warna',
-                berat_jenis:'Berat Jenis',
-                ph:'pH',
-                protein:'Protein',
-                glukosa:'Glukosa',
-                keton:'Keton',
-                bilirubin:'Bilirubin',
-                urobilinogen:'Urobilinogen',
-                nitrit:'Nitrit',
-                eritrosit_urin:'Eritrosit',
-                leukosit_urin:'Leukosit',
-                silinder:'Silinder',
-                bakteri:'Bakteri',
-                fungi:'Fungi',
-                parasit:'Parasit',
-                mikroskopis:'Pemeriksaan Mikroskopis',
-                widal_o:'Widal O',
-                widal_h:'Widal H',
-                hbsag:'HBsAg',
-                anti_hcv:'Anti-HCV',
-                hiv:'HIV',
-                rpr:'RPR/VDRL',
-                tpa:'TPHA',
-                chikungunya:'Chikungunya IgM/IgG',
-                dengue_igm:'Dengue IgM',
-                dengue_igg:'Dengue IgG'
-            };
-            return nameMap[id]||id;
-        }
-
-        console.log('🔥 SisterLab v2.0 - FIXED LOGIN BUG');
+        console.log('🔥 SisterLab v2.1 - MULTI-CATEGORY SUPPORT - SLIDER FIXED');
     </script>
 </body>
     </html>
